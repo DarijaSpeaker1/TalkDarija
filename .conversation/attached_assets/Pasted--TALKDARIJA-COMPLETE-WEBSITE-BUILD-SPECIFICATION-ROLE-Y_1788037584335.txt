@@ -1,0 +1,1806 @@
+# TALKDARIJA — COMPLETE WEBSITE BUILD SPECIFICATION
+
+## ROLE
+
+You are an expert senior full-stack web developer, UI/UX designer, React/TypeScript developer, and educational-app designer.
+
+Build **TalkDarija**, a polished web application for learning Moroccan Darija (Moroccan Arabic), inspired by the **game-like learning experience and progression philosophy of Duolingo**, but with its own original branding, UI, content, illustrations, and implementation.
+
+The application must feel like a **real, production-quality language-learning platform**, not a basic demo.
+
+The user is a beginner in web development, so the code must be clean, understandable, modular, and well organized.
+
+---
+
+# 1. CORE PRODUCT
+
+Website name:
+
+**TalkDarija**
+
+Purpose:
+
+> Help people learn Moroccan Darija through short interactive lessons, exercises, repetition, progression, XP, hearts, achievements, and personalized learning.
+
+Target users:
+
+* Complete beginners
+* People who know basic Darija
+* Intermediate Darija learners
+* Advanced learners
+* Foreigners learning Moroccan Darija
+* Moroccans who want to improve reading/writing in Latin-transliterated Darija
+
+The website should support Darija written primarily in **Latin/Franco-Moroccan transliteration**, for example:
+
+* salam
+* labas?
+* kidayr?
+* chno smitek?
+* fin sakn?
+* bghit
+* kanqra
+* mzyan
+* ma fhemtch
+
+Use natural Moroccan Darija rather than Modern Standard Arabic.
+
+---
+
+# 2. TECHNOLOGY
+
+Use:
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS if available
+* React hooks
+* localStorage for persistence initially
+
+Do NOT require a backend for the first version.
+
+The website must run with:
+
+```bash
+npm install
+npm run dev
+```
+
+Do not introduce unnecessary dependencies.
+
+If a library is already installed, reuse it when appropriate.
+
+---
+
+# 3. IMPORTANT DEVELOPMENT RULE
+
+Build the application in a way that prevents breaking existing functionality.
+
+Before changing anything:
+
+1. Inspect the project structure.
+2. Inspect package.json.
+3. Inspect existing components.
+4. Inspect existing styles.
+5. Understand existing functionality.
+6. Preserve anything useful.
+
+Do NOT blindly replace the entire project if useful functionality already exists.
+
+If starting completely from zero, create a clean architecture.
+
+After implementation:
+
+* Check TypeScript errors.
+* Check console errors.
+* Check navigation.
+* Check localStorage.
+* Check every interactive button.
+* Check lesson progression.
+* Check the placement test.
+* Check responsive behavior.
+* Fix errors before considering the task complete.
+
+Do not leave TODOs for core functionality.
+
+---
+
+# 4. VISUAL STYLE
+
+Create an original visual identity for TalkDarija.
+
+The design should be:
+
+* modern
+* playful
+* clean
+* friendly
+* highly readable
+* responsive
+* mobile-first
+* suitable for teenagers and adults
+* game-like without copying Duolingo's exact UI
+
+The logo/branding direction should be inspired by the visual energy of games such as Gartic.io, but DO NOT copy copyrighted branding or reproduce another company's logo.
+
+Use:
+
+* rounded cards
+* bold typography
+* subtle shadows
+* smooth animations
+* clear progress indicators
+* expressive emojis/illustrations where appropriate
+* Moroccan cultural touches
+* clean spacing
+* strong hierarchy
+
+Avoid:
+
+* excessive gradients
+* clutter
+* generic AI-looking designs
+* excessive glassmorphism
+* unnecessary animations
+* tiny text
+* overly complicated navigation
+
+The application must look good on:
+
+* desktop
+* tablet
+* mobile
+
+---
+
+# 5. FIRST-TIME USER ONBOARDING
+
+When a user opens TalkDarija for the first time, DO NOT immediately show the normal home screen.
+
+Show an onboarding flow.
+
+Use localStorage to determine whether onboarding has already been completed.
+
+Example key:
+
+```text
+talkdarija_onboarding_complete
+```
+
+If it does not exist or is not true:
+
+SHOW ONBOARDING.
+
+If it is true:
+
+SHOW THE NORMAL APP.
+
+The onboarding should have these stages:
+
+```text
+WELCOME
+↓
+SELF-ASSESSMENT
+↓
+PLACEMENT TEST
+↓
+RESULT
+↓
+PERSONALIZED STARTING POINT
+↓
+MAIN APP
+```
+
+---
+
+# 6. ONBOARDING SCREEN 1 — WELCOME
+
+Create a beautiful welcome screen.
+
+Content:
+
+🇲🇦
+
+# Marhba bik!
+
+## Welcome to TalkDarija
+
+Learn Moroccan Darija step by step, at your own level.
+
+Explain briefly that TalkDarija will personalize the learning path based on the user's current Darija knowledge.
+
+Primary button:
+
+**Let's find my level →**
+
+Do not show the normal navigation yet.
+
+---
+
+# 7. ONBOARDING SCREEN 2 — SELF-ASSESSMENT
+
+Ask:
+
+# How much Darija do you already know?
+
+Explain:
+
+> Don't worry if you're not sure. We'll test your level after this.
+
+Show three large selectable cards.
+
+## Beginner
+
+🟢
+
+> I'm new to Darija.
+
+Description:
+
+> I know little or no Moroccan Darija.
+
+## Intermediate
+
+🟡
+
+> I know some Darija.
+
+Description:
+
+> I understand basic Darija and can make simple sentences.
+
+## Expert
+
+🔴
+
+> I'm comfortable with Darija.
+
+Description:
+
+> I can understand and speak Darija comfortably.
+
+The user must choose one.
+
+Save the selection as:
+
+```text
+selfReportedLevel
+```
+
+IMPORTANT:
+
+This selection must NOT determine the final level.
+
+It is only the user's self-assessment.
+
+After selection:
+
+**Continue →**
+
+---
+
+# 8. PLACEMENT TEST
+
+Create a proper placement test inspired by the idea of Duolingo's placement experience.
+
+It must actually determine the user's level.
+
+Do NOT make it a fake quiz.
+
+The test should measure:
+
+1. Vocabulary
+2. Sentence comprehension
+3. Translation
+4. Basic grammar
+5. Verb usage
+6. Everyday expressions
+7. Reading transliterated Darija
+8. More advanced sentence comprehension
+
+Start easy and progressively become harder.
+
+Use approximately 10–15 questions.
+
+Show:
+
+```text
+Question 1 / 12
+```
+
+and a progress bar.
+
+Each question should have 3–4 answers.
+
+After answering:
+
+* indicate correct/incorrect
+* show a short explanation
+* move to the next question
+
+Do not reveal the answer before the user selects an option.
+
+---
+
+# 9. PLACEMENT TEST CONTENT
+
+Include questions such as:
+
+### Beginner
+
+Question:
+
+What does "salam" mean?
+
+Options:
+
+* Goodbye
+* Hello
+* Thank you
+* Please
+
+Correct:
+
+Hello
+
+---
+
+Question:
+
+What does "chokran" mean?
+
+Options:
+
+* Sorry
+* Please
+* Thank you
+* Welcome
+
+Correct:
+
+Thank you
+
+---
+
+Question:
+
+What does "kidayr?" mean?
+
+Options:
+
+* Where are you?
+* How are you?
+* What is your name?
+* Where do you live?
+
+Correct:
+
+How are you?
+
+---
+
+### Intermediate
+
+Question:
+
+What does:
+
+"ana kanqra f lmdrasa"
+
+mean?
+
+Correct:
+
+"I study at school."
+
+---
+
+Question:
+
+What does:
+
+"fin sakn?"
+
+mean?
+
+Correct:
+
+"Where do you live?"
+
+---
+
+Question:
+
+Choose the correct translation for:
+
+"I want to eat."
+
+Correct:
+
+"Bghit nakol."
+
+---
+
+### Advanced
+
+Question:
+
+What does:
+
+"Ma fhemtch chno gal."
+
+mean?
+
+Correct:
+
+"I didn't understand what he said."
+
+---
+
+Question:
+
+What does:
+
+"Ila bghiti, n9dro nmchiw daba."
+
+mean?
+
+Correct:
+
+"If you want, we can go now."
+
+Add many more questions.
+
+Do not reuse the same questions in the normal lesson system.
+
+---
+
+# 10. PLACEMENT ALGORITHM
+
+Create a scoring system.
+
+Example:
+
+```text
+Beginner questions = lower difficulty
+Intermediate questions = medium difficulty
+Advanced questions = high difficulty
+```
+
+Calculate:
+
+* overall score
+* vocabulary performance
+* comprehension performance
+* grammar performance
+
+Possible result:
+
+```text
+0–30% → Beginner
+31–65% → Intermediate
+66–85% → Advanced
+86–100% → Expert
+```
+
+You may improve this algorithm if you have a better implementation.
+
+The result should determine:
+
+* starting unit
+* recommended lessons
+* initial difficulty
+
+Do NOT simply use:
+
+```text
+selfReportedLevel
+```
+
+to determine the result.
+
+---
+
+# 11. PLACEMENT RESULT SCREEN
+
+Create a polished result screen.
+
+Example:
+
+🎉
+
+# Your Darija level is:
+
+## Intermediate
+
+Then:
+
+> Great job! You already understand a good amount of Darija.
+
+Show:
+
+```text
+Vocabulary       ███████░░░ 70%
+Comprehension    ██████░░░░ 60%
+Grammar          █████░░░░░ 50%
+```
+
+Then:
+
+> We've chosen the best starting point for you.
+
+Example:
+
+**Recommended starting point: Unit 3**
+
+Button:
+
+**Start learning →**
+
+Save:
+
+```text
+placementLevel
+placementScore
+startingUnit
+```
+
+---
+
+# 12. MAIN APP
+
+After onboarding, show the normal TalkDarija application.
+
+Main navigation should include:
+
+* 🏠 Home
+* 📚 Learn
+* 📖 Vocabulary
+* 👤 Profile
+
+On mobile, use a bottom navigation bar.
+
+On desktop, use a sidebar or clean top navigation.
+
+---
+
+# 13. HOME SCREEN
+
+The home screen should immediately show the user's learning progress.
+
+Include:
+
+### Current course
+
+Example:
+
+```text
+Darija Foundations
+```
+
+### Current unit
+
+Example:
+
+```text
+Unit 3
+Talking About Yourself
+```
+
+### Progress
+
+```text
+██████░░░░ 60%
+```
+
+### Continue button
+
+**Continue learning →**
+
+Also show:
+
+* XP
+* Hearts
+* Streak
+* daily goal
+* current level
+* achievements
+* recent activity
+
+---
+
+# 14. DUOLINGO-STYLE COURSE PATH
+
+Create a large structured learning path.
+
+Do NOT copy Duolingo's exact visual design.
+
+Create your own progression system.
+
+Example:
+
+```text
+UNIT 1
+Darija Basics
+
+   ● Lesson 1
+   ● Lesson 2
+   ● Lesson 3
+   ● Lesson 4
+
+UNIT 2
+Everyday Words
+
+   ● Lesson 1
+   ● Lesson 2
+   ● Lesson 3
+   ● Lesson 4
+
+UNIT 3
+Introducing Yourself
+
+   ● Lesson 1
+   ● Lesson 2
+   ● Lesson 3
+   ● Lesson 4
+```
+
+Locked lessons should be visibly locked.
+
+Completed lessons should show a completion indicator.
+
+Current lesson should be highlighted.
+
+---
+
+# 15. CREATE MANY LESSONS
+
+The application must NOT launch with only 3 or 4 lessons.
+
+Create a substantial initial curriculum.
+
+At minimum:
+
+## UNIT 1 — Darija Basics
+
+Lessons:
+
+1. Greetings
+2. Yes and No
+3. Thank You and Please
+4. Basic Questions
+5. Review
+
+## UNIT 2 — About Me
+
+Lessons:
+
+1. My Name
+2. Where I Am From
+3. Age
+4. Family
+5. Review
+
+## UNIT 3 — Everyday Life
+
+Lessons:
+
+1. Food
+2. Drinks
+3. School
+4. Home
+5. Daily Activities
+6. Review
+
+## UNIT 4 — People
+
+Lessons:
+
+1. Family Members
+2. Friends
+3. Describing People
+4. Personality
+5. Review
+
+## UNIT 5 — Places
+
+Lessons:
+
+1. City
+2. Home
+3. School
+4. Shops
+5. Directions
+6. Review
+
+## UNIT 6 — Time
+
+Lessons:
+
+1. Numbers
+2. Days
+3. Months
+4. Time
+5. Dates
+6. Review
+
+## UNIT 7 — Food
+
+Lessons:
+
+1. Meals
+2. Ordering Food
+3. Restaurants
+4. Moroccan Food
+5. Preferences
+6. Review
+
+## UNIT 8 — Conversation
+
+Lessons:
+
+1. Asking Questions
+2. Giving Answers
+3. Making Requests
+4. Casual Conversation
+5. Review
+
+## UNIT 9 — Grammar Foundations
+
+Lessons:
+
+1. Pronouns
+2. Present Tense
+3. Past Tense
+4. Future
+5. Negation
+6. Review
+
+## UNIT 10 — Intermediate Darija
+
+Lessons:
+
+1. Longer Sentences
+2. Opinions
+3. Descriptions
+4. Stories
+5. Common Expressions
+6. Review
+
+Create enough content that the website genuinely feels like a language-learning platform.
+
+---
+
+# 16. LESSON STRUCTURE
+
+Each lesson should contain multiple exercises.
+
+A lesson should generally have:
+
+8–15 exercises.
+
+Mix exercise types.
+
+Do NOT make every question multiple choice.
+
+Exercise types:
+
+### Translation
+
+Show:
+
+> What does "bghit nakol" mean?
+
+---
+
+### Multiple choice
+
+Show a Darija sentence and several translations.
+
+---
+
+### Reverse translation
+
+Show:
+
+> "I am tired."
+
+User selects:
+
+> "Ana 3yan."
+
+---
+
+### Word selection
+
+Give several words and ask the user to construct a sentence.
+
+---
+
+### Sentence ordering
+
+Example:
+
+```text
+ana
+kanqra
+f
+lmdrasa
+```
+
+User must arrange them correctly.
+
+---
+
+### Missing word
+
+> Ana ___ lmdrasa.
+
+Options:
+
+* kanqra
+* nakol
+* nmchi
+* n3as
+
+---
+
+### Listening-ready architecture
+
+Design the lesson system so audio can be added later.
+
+For now, create the structure for:
+
+```text
+playAudio()
+```
+
+but do not require audio files if they are unavailable.
+
+---
+
+# 17. LESSON PROGRESSION
+
+Each lesson should track:
+
+* current question
+* correct answers
+* incorrect answers
+* XP earned
+* completion
+* best score
+
+At the end:
+
+Show:
+
+# Lesson Complete! 🎉
+
+Example:
+
+```text
++25 XP
+8/10 correct
+```
+
+Then:
+
+**Continue →**
+
+---
+
+# 18. HEART SYSTEM
+
+Implement a heart system.
+
+Default:
+
+```text
+❤️ ❤️ ❤️ ❤️ ❤️
+```
+
+Maximum:
+
+5 hearts.
+
+When the user makes a mistake:
+
+```text
+-1 ❤️
+```
+
+If hearts reach zero:
+
+Pause the lesson.
+
+Show:
+
+# You're out of hearts
+
+Options:
+
+### Watch an ad
+
+For now, create a placeholder:
+
+**Watch video → +1 ❤️**
+
+Do not implement a fake real advertisement.
+
+### Use diamonds
+
+If diamonds are implemented:
+
+**Spend 50 💎 → +1 ❤️**
+
+### Wait
+
+Show a regeneration countdown.
+
+Example:
+
+```text
+Next heart in 04:32
+```
+
+Hearts regenerate over time.
+
+Persist heart state using localStorage.
+
+IMPORTANT:
+
+If the user loses all hearts in the middle of a lesson, save the exact lesson/question state.
+
+When they regain a heart, they must continue from the **exact same question**, not restart the lesson.
+
+---
+
+# 19. XP SYSTEM
+
+Create XP.
+
+Examples:
+
+* Complete exercise: +2 XP
+* Complete lesson: +20 XP
+* Perfect lesson: bonus XP
+* Daily goal: bonus XP
+
+Display XP throughout the interface.
+
+Persist XP.
+
+---
+
+# 20. LEVEL SYSTEM
+
+Create learner progression.
+
+Example:
+
+```text
+Level 1
+Level 2
+Level 3
+...
+```
+
+XP determines progression.
+
+Display:
+
+```text
+Level 7
+███████░░░ 720 / 1000 XP
+```
+
+---
+
+# 21. STREAK SYSTEM
+
+Implement a daily streak.
+
+Example:
+
+🔥 7 day streak
+
+Save the last active date in localStorage.
+
+If the user uses the app on consecutive days:
+
+```text
+streak +1
+```
+
+If they miss a day:
+
+streak resets according to the app's rules.
+
+Make the logic timezone-safe as much as reasonably possible on the client.
+
+---
+
+# 22. DAILY GOAL
+
+Allow the user to choose a daily XP goal:
+
+* 10 XP
+* 20 XP
+* 30 XP
+* 50 XP
+
+Show:
+
+```text
+Today's goal
+
+██████░░░░
+
+18 / 30 XP
+```
+
+Celebrate when completed.
+
+---
+
+# 23. DIAMONDS / CURRENCY
+
+Add a simple virtual currency:
+
+💎 Diamonds
+
+Users can earn diamonds by:
+
+* completing lessons
+* maintaining streaks
+* completing achievements
+
+Use diamonds for optional actions such as:
+
+* restoring one heart
+* optional power-ups
+
+Do NOT make the application pay-to-win.
+
+---
+
+# 24. VOCABULARY SYSTEM
+
+Create a vocabulary section.
+
+Each entry should contain:
+
+```text
+Darija
+Romanization
+English
+Category
+Example sentence
+```
+
+Example:
+
+```text
+Darija: mzyan
+Romanization: mzyan
+English: good
+Category: adjective
+```
+
+Users should be able to:
+
+* search vocabulary
+* filter by category
+* mark words as learned
+* review words
+
+Categories:
+
+* greetings
+* family
+* food
+* school
+* home
+* travel
+* verbs
+* adjectives
+* expressions
+* numbers
+
+---
+
+# 25. REVIEW SYSTEM
+
+Create a review system.
+
+Users should periodically review vocabulary they previously learned.
+
+Use a simple spaced-repetition-inspired system.
+
+Track:
+
+```text
+timesSeen
+timesCorrect
+lastReviewed
+```
+
+Words that users frequently get wrong should appear more often.
+
+---
+
+# 26. PROFILE PAGE
+
+Create a profile page containing:
+
+* avatar
+* username
+* Darija level
+* XP
+* streak
+* lessons completed
+* words learned
+* achievements
+* daily goal
+
+Also provide:
+
+### Retake placement test
+
+This should allow the user to redo the test.
+
+### Reset progress
+
+Add a confirmation dialog.
+
+Do NOT accidentally delete progress from a simple click.
+
+---
+
+# 27. SETTINGS
+
+Create a settings section.
+
+Include:
+
+* Dark mode
+* Light mode
+* Sound toggle
+* Animation toggle
+* Reset progress
+* Retake placement test
+
+Persist settings.
+
+---
+
+# 28. DARK MODE
+
+Support:
+
+🌞 Light
+
+🌙 Dark
+
+Make sure every screen works correctly in both modes.
+
+Do not create unreadable low-contrast text.
+
+---
+
+# 29. RESPONSIVE DESIGN
+
+The website must work properly at:
+
+* 360px mobile width
+* 390px
+* 430px
+* tablet
+* desktop
+* large desktop
+
+No horizontal scrolling.
+
+Buttons must be easy to tap on mobile.
+
+---
+
+# 30. ANIMATIONS
+
+Use subtle animations for:
+
+* selecting answers
+* correct answer
+* incorrect answer
+* XP rewards
+* level completion
+* unlocking lessons
+* progress bars
+* onboarding transitions
+
+Do not overanimate the application.
+
+---
+
+# 31. ERROR HANDLING
+
+Every interactive feature must handle unexpected states.
+
+Examples:
+
+* no saved progress
+* corrupted localStorage
+* missing lesson
+* invalid question
+* invalid answer index
+* user refreshing during a lesson
+
+The app should fail gracefully rather than showing a blank white screen.
+
+---
+
+# 32. DATA ARCHITECTURE
+
+Keep course content separate from UI code.
+
+Do NOT put hundreds of lessons directly inside one giant React component.
+
+Use something like:
+
+```text
+src/
+├── components/
+├── data/
+│   ├── lessons.ts
+│   ├── vocabulary.ts
+│   ├── placementTest.ts
+│   └── achievements.ts
+├── pages/
+│   ├── Home.tsx
+│   ├── Learn.tsx
+│   ├── Lesson.tsx
+│   ├── Vocabulary.tsx
+│   ├── Profile.tsx
+│   └── Onboarding.tsx
+├── hooks/
+├── utils/
+├── App.tsx
+└── main.tsx
+```
+
+If the existing project has a different clean structure, adapt to it rather than unnecessarily restructuring everything.
+
+---
+
+# 33. LOCAL STORAGE
+
+Persist at minimum:
+
+```text
+talkdarija_onboarding_complete
+talkdarija_self_reported_level
+talkdarija_placement_level
+talkdarija_placement_score
+talkdarija_starting_unit
+talkdarija_xp
+talkdarija_hearts
+talkdarija_lessons
+talkdarija_streak
+talkdarija_daily_goal
+talkdarija_diamonds
+talkdarija_vocabulary
+talkdarija_settings
+talkdarija_current_lesson
+talkdarija_current_question
+```
+
+Use safe JSON parsing and defaults.
+
+---
+
+# 34. IMPORTANT REFRESH BEHAVIOR
+
+If the user refreshes during onboarding:
+
+They should remain in the onboarding state.
+
+If they refresh during a lesson:
+
+They should return to the exact lesson/question where they were.
+
+If they close and reopen the website:
+
+Their progress should remain.
+
+If onboarding is complete:
+
+Do not show onboarding again.
+
+---
+
+# 35. FIRST LAUNCH EXPERIENCE
+
+The entire first-time experience should feel polished.
+
+Flow:
+
+```text
+Marhba bik!
+       ↓
+Choose your estimated level
+       ↓
+Placement test
+       ↓
+Analyzing your answers...
+       ↓
+Your level is Intermediate
+       ↓
+Your personalized course is ready
+       ↓
+Start learning
+       ↓
+Home / Course path
+```
+
+Add a short "Analyzing..." screen between test and result.
+
+---
+
+# 36. ACHIEVEMENTS
+
+Create achievements such as:
+
+🏆 First Lesson
+
+Complete your first lesson.
+
+🔥 Week Warrior
+
+Maintain a 7-day streak.
+
+📚 Vocabulary Builder
+
+Learn 50 words.
+
+💯 Perfect Lesson
+
+Get every question correct.
+
+🇲🇦 Darija Starter
+
+Complete Unit 1.
+
+🚀 Fast Learner
+
+Complete 5 lessons.
+
+Create an achievements page or section in Profile.
+
+---
+
+# 37. COURSE CONTENT QUALITY
+
+The content is extremely important.
+
+Do NOT generate meaningless sentences.
+
+Use natural Moroccan Darija.
+
+Prefer real everyday Moroccan expressions.
+
+Examples:
+
+```text
+Salam
+Labas?
+Labas, hamdullah.
+Chno smitek?
+Smiti Ahmed.
+Fin sakn?
+Sakn f Tetouan.
+Chno katdir?
+Kanqra.
+Bghit nakol.
+Ma fhemtch.
+3awed, 3afak.
+Ch7al hada?
+Fin kayn...?
+```
+
+Use the appropriate Latin transliteration conventions consistently.
+
+Numbers such as:
+
+```text
+3 = ع
+7 = ح
+9 = ق
+```
+
+may be used naturally where appropriate.
+
+Do not randomly mix Modern Standard Arabic into beginner Darija lessons.
+
+---
+
+# 38. EXPLANATIONS
+
+When a user gets an answer wrong, provide a concise explanation.
+
+Example:
+
+Question:
+
+> What does "bghit nakol" mean?
+
+If wrong:
+
+> "Bghit" means "I want" and "nakol" means "to eat", so the sentence means "I want to eat."
+
+Keep explanations beginner-friendly.
+
+---
+
+# 39. LEARNING DIFFICULTY
+
+Lessons should progress naturally.
+
+Beginner:
+
+* greetings
+* names
+* numbers
+* basic verbs
+* simple questions
+
+Intermediate:
+
+* longer sentences
+* past tense
+* future
+* negation
+* descriptions
+* conversations
+
+Advanced:
+
+* idiomatic expressions
+* natural conversational Darija
+* longer passages
+* nuanced vocabulary
+* slang where appropriate
+* context-based comprehension
+
+---
+
+# 40. NO FAKE FEATURES
+
+Do not create buttons that do nothing.
+
+If a feature is not implemented:
+
+* either implement it properly
+* or clearly mark it as coming soon
+
+Never make a button appear functional if it does nothing.
+
+---
+
+# 41. ACCESSIBILITY
+
+Include:
+
+* keyboard navigation
+* visible focus states
+* readable contrast
+* appropriate button labels
+* semantic HTML where possible
+
+Do not rely only on color to indicate correct/incorrect answers.
+
+---
+
+# 42. PERFORMANCE
+
+Avoid unnecessary re-renders.
+
+Do not load huge assets unnecessarily.
+
+Keep lesson data efficient.
+
+Avoid putting massive arrays inside frequently re-rendered components.
+
+---
+
+# 43. CODE QUALITY
+
+Use:
+
+* reusable components
+* TypeScript types
+* clear names
+* small functions
+* comments only where useful
+* no duplicated logic
+
+Avoid:
+
+* `any` unless genuinely necessary
+* giant components
+* duplicated lesson UI
+* hardcoded state everywhere
+* unsafe localStorage handling
+
+---
+
+# 44. IMPORTANT: TEST EVERYTHING
+
+Before finishing, test this exact sequence:
+
+### Test A
+
+Open website with no localStorage.
+
+Expected:
+
+Welcome screen.
+
+### Test B
+
+Click:
+
+Let's find my level.
+
+Expected:
+
+Level selection.
+
+### Test C
+
+Select Beginner.
+
+Expected:
+
+Selection visually activates.
+
+### Test D
+
+Complete placement test.
+
+Expected:
+
+Score calculated.
+
+### Test E
+
+Result.
+
+Expected:
+
+Correct recommended level.
+
+### Test F
+
+Click Start Learning.
+
+Expected:
+
+Main application.
+
+### Test G
+
+Refresh page.
+
+Expected:
+
+Onboarding does NOT return.
+
+### Test H
+
+Start lesson.
+
+Expected:
+
+Exercises work.
+
+### Test I
+
+Answer incorrectly.
+
+Expected:
+
+Heart decreases.
+
+### Test J
+
+Run out of hearts.
+
+Expected:
+
+Lesson pauses.
+
+### Test K
+
+Restore a heart.
+
+Expected:
+
+Lesson resumes at the exact same question.
+
+### Test L
+
+Complete lesson.
+
+Expected:
+
+XP increases.
+
+### Test M
+
+Refresh.
+
+Expected:
+
+XP and lesson progress remain.
+
+### Test N
+
+Open Profile.
+
+Expected:
+
+Correct stats.
+
+### Test O
+
+Enable dark mode.
+
+Expected:
+
+All screens remain readable.
+
+---
+
+# 45. DO NOT STOP AT A MOCKUP
+
+This is critical.
+
+I do NOT want:
+
+* static screenshots
+* fake buttons
+* empty lesson cards
+* placeholder lorem ipsum
+* only one lesson
+* fake progress bars
+* fake XP
+* fake hearts
+
+I want a **functional learning application**.
+
+The user must be able to actually:
+
+1. enter TalkDarija
+2. select their estimated level
+3. take the placement test
+4. receive a calculated level
+5. receive a starting point
+6. enter the course
+7. complete lessons
+8. earn XP
+9. lose/regain hearts
+10. progress through units
+11. review vocabulary
+12. maintain a streak
+13. earn achievements
+14. change settings
+15. close and reopen the website without losing progress
+
+---
+
+# 46. FINAL DESIGN GOAL
+
+When someone opens TalkDarija, the feeling should be:
+
+> "This is a real Moroccan Darija learning platform."
+
+Not:
+
+> "This is a coding demo."
+
+Prioritize:
+
+**UX → correctness → educational quality → visual polish → animations.**
+
+Make the application fun, motivating, and easy to understand.
+
+---
+
+# 47. BUILD ORDER
+
+Implement in this order:
+
+### Phase 1
+
+Project architecture + design system
+
+### Phase 2
+
+Onboarding
+
+### Phase 3
+
+Placement test
+
+### Phase 4
+
+Result + personalized starting point
+
+### Phase 5
+
+Course path
+
+### Phase 6
+
+Lesson engine
+
+### Phase 7
+
+XP + hearts + progression
+
+### Phase 8
+
+Vocabulary + review
+
+### Phase 9
+
+Streak + daily goals
+
+### Phase 10
+
+Profile + achievements
+
+### Phase 11
+
+Settings + dark mode
+
+### Phase 12
+
+Responsive optimization
+
+### Phase 13
+
+Testing and bug fixing
+
+Do not skip testing between phases.
+
+---
+
+# 48. FINAL REQUIREMENT
+
+At the end, provide a concise report containing:
+
+1. What was implemented
+2. Main files created/modified
+3. How the onboarding works
+4. How the placement test works
+5. How progress is saved
+6. How to run the project
+7. Any remaining limitations
+
+Most importantly:
+
+**DO NOT overwrite or destroy working functionality without first inspecting it.**
+
+If the project starts empty, build the complete application from scratch.
+
+If existing functionality is present, integrate the new system into it.
+
+The final result must run successfully with:
+
+```bash
+npm run dev
+```
+
+and must not contain TypeScript compilation errors or obvious runtime errors.

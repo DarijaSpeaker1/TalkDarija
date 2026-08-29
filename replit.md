@@ -1,6 +1,6 @@
-# [Project name]
+# TalkDarija
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+TalkDarija is a playful Moroccan Darija learning app with personalized placement, interactive lessons, vocabulary review, and local progress tracking.
 
 ## Run & Operate
 
@@ -22,23 +22,31 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/talkdarija/src/App.tsx` — app routing, onboarding flow, learning shell, and page composition
+- `artifacts/talkdarija/src/data/content.ts` — placement questions, course curriculum, lesson exercises, vocabulary, and achievements
+- `artifacts/talkdarija/src/hooks/use-local-app.ts` — safe localStorage-backed learner state and progress actions
+- `artifacts/talkdarija/src/index.css` — TalkDarija visual theme, responsive layout utilities, light/dark modes, and motion
+- `artifacts/talkdarija` — deployable frontend artifact
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The first version is intentionally frontend-only and stores learner progress on the current device using safe localStorage parsing and defaults.
+- Placement results are calculated from categorized question performance and determine the recommended starting unit; self-assessment is only a signal.
+- Lesson content is kept outside the main React component so the curriculum can grow without turning the UI into one large file.
+- The app uses a coastal-souk visual language with indigo, sun-gold, terracotta, and parchment tones rather than copying another language app's branding.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+TalkDarija guides a learner through welcome onboarding, a 12-question placement test, personalized course entry, a 10-unit course path, mixed-format lesson exercises, hearts, XP, streaks, daily goals, diamonds, vocabulary review, achievements, profile, and theme/settings controls.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+No additional preferences recorded.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The frontend workflow supplies `PORT` and `BASE_PATH`; use the managed artifact workflow rather than starting Vite directly for preview checks.
+- Resetting progress and retaking placement are intentionally separate actions and require deliberate user interaction.
 
 ## Pointers
 
