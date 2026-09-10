@@ -8,7 +8,9 @@ export type SoundName =
   | "achievement"
   | "lesson-complete"
   | "unlock"
-  | "streak";
+  | "streak"
+  | "modal-open"
+  | "feedback-prompt";
 
 let audioContext: AudioContext | null = null;
 
@@ -47,6 +49,8 @@ const tones: Record<
   },
   unlock: { notes: [294, 392, 494], duration: 0.12, type: "sine" },
   streak: { notes: [440, 554, 698], duration: 0.1, type: "sine" },
+  "modal-open": { notes: [392, 523], duration: 0.07, type: "sine" },
+  "feedback-prompt": { notes: [392, 494, 659, 784], duration: 0.08, type: "sine" },
 };
 
 export function playSound(name: SoundName, enabled = true) {
@@ -57,7 +61,7 @@ export function playSound(name: SoundName, enabled = true) {
     const tone = tones[name];
     const output = context.createGain();
     output.gain.setValueAtTime(0.0001, context.currentTime);
-    output.gain.exponentialRampToValueAtTime(0.055, context.currentTime + 0.01);
+    output.gain.exponentialRampToValueAtTime(0.045, context.currentTime + 0.01);
     output.gain.exponentialRampToValueAtTime(
       0.0001,
       context.currentTime + tone.duration * tone.notes.length + 0.06,
@@ -66,7 +70,8 @@ export function playSound(name: SoundName, enabled = true) {
     tone.notes.forEach((frequency, index) => {
       const oscillator = context.createOscillator();
       oscillator.type = tone.type;
-      oscillator.frequency.value = frequency;
+      oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+      oscillator.detune.value = index % 2 === 0 ? -3 : 3;
       oscillator.connect(output);
       oscillator.start(context.currentTime + index * tone.duration * 0.72);
       oscillator.stop(

@@ -8,6 +8,7 @@
     { "source": "/review", "destination": "/index.html" },
     { "source": "/scenarios/:scenarioId", "destination": "/index.html" },
     { "source": "/profile", "destination": "/index.html" },
+    { "source": "/achievements", "destination": "/index.html" },
     { "source": "/settings", "destination": "/index.html" }
   ]
 }

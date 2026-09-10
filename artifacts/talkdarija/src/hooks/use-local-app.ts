@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { lessons, type Level } from "@/data/content";
+import { achievements as achievementDefinitions, lessons, type Level } from "@/data/content";
 
 export type AppState = {
   profile: null | {
@@ -99,6 +99,15 @@ const publish = (next: AppState) => {
   sharedState = next;
   listeners.forEach((listener) => listener(next));
 };
+const unlock = (current: Set<string>, ids: string[]) => {
+  let reward = 0;
+  ids.forEach((id) => {
+    if (current.has(id)) return;
+    current.add(id);
+    reward += achievementDefinitions.find((item) => item.id === id)?.diamonds ?? 0;
+  });
+  return reward;
+};
 export function useLocalApp() {
   const [state, setLocalState] = useState<AppState>(sharedState);
   useEffect(() => {
@@ -133,9 +142,12 @@ export function useLocalApp() {
       ? sharedState.completedLessons
       : [...sharedState.completedLessons, id];
     const achievements = new Set(sharedState.achievements);
-    achievements.add("first-step");
-    if (completedLessons.length >= 10) achievements.add("pathfinder");
-    if (completedLessons.length >= 5) achievements.add("open-door");
+    let diamondReward = unlock(achievements, ["first-step"]);
+    diamondReward += unlock(achievements, [
+      ...(completedLessons.length >= 2 ? ["conversation-starter"] : []),
+      ...(completedLessons.length >= 5 ? ["open-door"] : []),
+      ...(completedLessons.length >= 10 ? ["pathfinder"] : []),
+    ]);
     const today = localDay();
     const lastDay = sharedState.lastPractice
       ? localDay(new Date(sharedState.lastPractice))
@@ -149,11 +161,15 @@ export function useLocalApp() {
         : lastDay === yesterday
           ? sharedState.streak + 1
           : 1;
-        if (nextStreak >= 3) achievements.add("steady-sun");
+        diamondReward += unlock(achievements, [
+          ...(nextStreak >= 3 ? ["steady-sun"] : []),
+          ...(nextStreak >= 7 ? ["practice-fire"] : []),
+        ]);
     publish({
       ...sharedState,
       completedLessons,
       xp: alreadyCompleted ? sharedState.xp : sharedState.xp + xp,
+      diamonds: sharedState.diamonds + diamondReward,
       dailyMinutesDate: today,
       dailyMinutes: alreadyCompleted ? (isNewMinutesDay ? 0 : sharedState.dailyMinutes) : (isNewMinutesDay ? minutes : sharedState.dailyMinutes + minutes),
       dailyQuestDate: today,
@@ -174,16 +190,21 @@ export function useLocalApp() {
   const recordExercise = useCallback(() => {
     const today = localDay();
     const isNewQuestDay = sharedState.dailyQuestDate !== today;
+    const nextTotal = sharedState.totalExercises + 1;
+    const achievementSet = new Set(sharedState.achievements);
+    const diamondReward = unlock(achievementSet, [
+      ...(nextTotal >= 25 ? ["good-ear"] : []),
+      ...(nextTotal >= 50 ? ["deep-listener"] : []),
+    ]);
     publish({
       ...sharedState,
       dailyQuestDate: today,
       dailyLessons: isNewQuestDay ? 0 : sharedState.dailyLessons,
       dailyWords: isNewQuestDay ? 0 : sharedState.dailyWords,
       dailyExercises: isNewQuestDay ? 1 : sharedState.dailyExercises + 1,
-      totalExercises: sharedState.totalExercises + 1,
-      achievements: sharedState.totalExercises + 1 >= 25
-        ? Array.from(new Set([...sharedState.achievements, "good-ear"]))
-        : sharedState.achievements,
+      totalExercises: nextTotal,
+      diamonds: sharedState.diamonds + diamondReward,
+      achievements: [...achievementSet],
     });
   }, []);
   const recordMistake = useCallback((exerciseId: string) => {
@@ -211,6 +232,12 @@ export function useLocalApp() {
     const isNewQuestDay = sharedState.dailyQuestDate !== today;
     const learned = sharedState.learnedWords.includes(id);
     const alreadyCountedToday = sharedState.dailyWordIds.includes(id);
+    const nextLearnedCount = learned ? sharedState.learnedWords.length - 1 : sharedState.learnedWords.length + 1;
+    const achievementSet = new Set(sharedState.achievements);
+    const diamondReward = unlock(achievementSet, [
+      ...(nextLearnedCount >= 10 ? ["word-hoarder"] : []),
+      ...(nextLearnedCount >= 25 ? ["vocab-builder"] : []),
+    ]);
     publish({
       ...sharedState,
       learnedWords: learned
@@ -225,9 +252,8 @@ export function useLocalApp() {
         ? learned ? [] : [id]
         : !learned && !alreadyCountedToday ? [...sharedState.dailyWordIds, id] : sharedState.dailyWordIds,
       dailyExercises: isNewQuestDay ? 0 : sharedState.dailyExercises,
-      achievements: !learned && sharedState.learnedWords.length + 1 >= 10
-        ? Array.from(new Set([...sharedState.achievements, "word-hoarder"]))
-        : sharedState.achievements,
+      diamonds: sharedState.diamonds + diamondReward,
+      achievements: [...achievementSet],
     });
   }, []);
   const reset = useCallback(() => {

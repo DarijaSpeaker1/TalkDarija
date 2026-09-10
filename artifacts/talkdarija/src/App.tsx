@@ -87,14 +87,14 @@ const levelCopy: Record<Level, { title: string; desc: string; unit: number }> =
 
 function Logo() {
   return (
-    <Link href="/home" className="focus-ring flex items-center gap-2.5">
+    <span className="flex items-center gap-2.5">
       <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent text-accent-foreground">
         <span className="display text-lg font-bold">T</span>
       </span>
       <span className="display text-lg font-bold tracking-tight">
         talk<span className="text-accent">darija</span>
       </span>
-    </Link>
+    </span>
   );
 }
 function AvatarArt({ variant, size = "md" }: { variant: string; size?: "sm" | "md" | "lg" }) {
@@ -295,7 +295,7 @@ function Sidebar({ current }: { current: string }) {
             key={item.href}
             href={item.href}
             className={cx(
-              "focus-ring flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold",
+              "nav-motion focus-ring flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold",
               current === item.href
                 ? "bg-sidebar-foreground/10 text-accent"
                 : "opacity-65 hover:bg-sidebar-foreground/5 hover:opacity-100",
@@ -324,7 +324,7 @@ function Sidebar({ current }: { current: string }) {
       </div>
           <Link
             href="/settings"
-            className="focus-ring mt-5 flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold opacity-65 hover:bg-sidebar-foreground/5 hover:opacity-100"
+            className="nav-motion focus-ring mt-5 flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold opacity-65 hover:bg-sidebar-foreground/5 hover:opacity-100"
           >
             <SettingsIcon size={18} />
             Settings
@@ -346,7 +346,7 @@ function BottomNav({ current }: { current: string }) {
           key={item.href}
           href={item.href}
           className={cx(
-            "focus-ring flex min-w-[62px] flex-col items-center gap-1 rounded-xl px-2 py-1 text-[10px] font-semibold",
+            "nav-motion focus-ring flex min-w-[62px] flex-col items-center gap-1 rounded-xl px-2 py-1 text-[10px] font-semibold",
             current === item.href ? "text-primary" : "text-muted-foreground",
           )}
         >
@@ -360,8 +360,18 @@ function BottomNav({ current }: { current: string }) {
 function Shell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const current = location.startsWith("/lesson") ? "/learn" : location;
+  const trackPointer = (event: React.PointerEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+    event.currentTarget.style.setProperty("--mouse-x", `${x}%`);
+    event.currentTarget.style.setProperty("--mouse-y", `${y}%`);
+  };
   return (
-    <div className="app-shell noise">
+    <div className="app-shell noise" onPointerMove={trackPointer} onPointerLeave={(event) => {
+      event.currentTarget.style.setProperty("--mouse-x", "50%");
+      event.currentTarget.style.setProperty("--mouse-y", "20%");
+    }}>
       <Sidebar current={current} />
       <main className="app-main page-in min-h-[100dvh]">
         <div className="mx-auto max-w-[1160px] px-5 py-6 md:px-10 md:py-9">
@@ -383,8 +393,9 @@ function FeedbackPrompt() {
   useEffect(() => {
     if (!eligible) return;
     setVisible(true);
+    playSound("feedback-prompt", state.settings.sound);
     patch({ feedbackPromptShown: true });
-  }, [eligible, patch]);
+  }, [eligible, patch, state.settings.sound]);
 
   if (!visible) return <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />;
 
@@ -449,6 +460,7 @@ function Onboarding() {
   const [dailyGoal, setDailyGoal] = useState(5);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [score, setScore] = useState(0);
+  const placementClick = () => playSound("click", state.settings.sound);
   useEffect(() => {
     if (retake) sessionStorage.removeItem("talkdarija-retake");
     else if (state.profile) setLocation("/home");
@@ -461,6 +473,7 @@ function Onboarding() {
         0,
       ),
     );
+    playSound("achievement", state.settings.sound);
     setStage("analyzing");
     window.setTimeout(() => setStage("result"), 650);
   };
@@ -490,7 +503,7 @@ function Onboarding() {
             </p>
             <Button
               className="mt-9"
-              onClick={() => setStage("self")}
+              onClick={() => { placementClick(); setStage("self"); }}
               data-testid="button-start"
             >
               Find my starting point <ChevronRight size={18} />
@@ -539,7 +552,7 @@ function Onboarding() {
               {levels.map(([label, detail]) => (
                 <button
                   key={label}
-                  onClick={() => setSelfLevel(label)}
+                  onClick={() => { placementClick(); setSelfLevel(label); }}
                   className={cx(
                     "focus-ring flex w-full items-center justify-between rounded-2xl border p-4 text-left",
                     selfLevel === label
@@ -561,15 +574,15 @@ function Onboarding() {
             </div>
             <div className="mt-7 grid gap-4 sm:grid-cols-2">
               <label className="text-sm font-bold">Why are you learning?
-                <select value={purpose} onChange={(event) => setPurpose(event.target.value)} className="focus-ring mt-2 w-full rounded-xl border border-border bg-card px-3 py-3 text-sm font-normal"><option>Travel</option><option>Family</option><option>Friends</option><option>Culture</option><option>Conversation</option></select>
+                <select value={purpose} onChange={(event) => { placementClick(); setPurpose(event.target.value); }} className="focus-ring mt-2 w-full rounded-xl border border-border bg-card px-3 py-3 text-sm font-normal"><option>Travel</option><option>Family</option><option>Friends</option><option>Culture</option><option>Conversation</option></select>
               </label>
               <label className="text-sm font-bold">Daily practice goal
-                <select value={dailyGoal} onChange={(event) => setDailyGoal(Number(event.target.value))} className="focus-ring mt-2 w-full rounded-xl border border-border bg-card px-3 py-3 text-sm font-normal"><option value={5}>5 minutes</option><option value={10}>10 minutes</option><option value={15}>15 minutes</option><option value={20}>20+ minutes</option></select>
+                <select value={dailyGoal} onChange={(event) => { placementClick(); setDailyGoal(Number(event.target.value)); }} className="focus-ring mt-2 w-full rounded-xl border border-border bg-card px-3 py-3 text-sm font-normal"><option value={5}>5 minutes</option><option value={10}>10 minutes</option><option value={15}>15 minutes</option><option value={20}>20+ minutes</option></select>
               </label>
             </div>
             <Button
               className="mt-8 w-full"
-              onClick={() => setStage("test")}
+              onClick={() => { placementClick(); setStage("test"); }}
               data-testid="button-continue-self"
             >
               Continue to quick check <ChevronRight size={18} />
@@ -602,12 +615,16 @@ function Onboarding() {
                 <button
                   key={option}
                   onClick={() => {
+                    placementClick();
                     const next = { ...answers, [q.id]: option };
                     setAnswers(next);
                     if (qIndex === placementQuestions.length - 1) finish(next);
                   }}
                   data-testid={`button-placement-option-${i}`}
-                  className="focus-ring rounded-2xl border border-border bg-card p-4 text-left text-sm font-semibold hover:border-primary hover:bg-secondary"
+                  className={cx(
+                    "placement-answer focus-ring rounded-2xl border border-border bg-card p-4 text-left text-sm font-semibold hover:border-primary hover:bg-secondary",
+                    answers[q.id] === option && "is-selected",
+                  )}
                 >
                   {option}
                 </button>
@@ -639,10 +656,15 @@ function Onboarding() {
     score < 4 ? "A0" : score < 7 ? "A1" : score < 10 ? "A2" : "B1";
   const rec = levelCopy[level];
   return (
-    <div className="flex min-h-[100dvh] items-center justify-center px-5 py-10 text-center">
-      <div className="w-full max-w-2xl">
+    <div className="placement-result flex min-h-[100dvh] items-center justify-center overflow-hidden px-5 py-10 text-center">
+      <div className="placement-result__sparkles" aria-hidden="true">
+        {Array.from({ length: 12 }, (_, index) => <span key={index} style={{ "--sparkle-index": index } as React.CSSProperties} />)}
+      </div>
+      <div className="placement-result__content w-full max-w-2xl">
         <Logo />
-        <Trophy className="mx-auto mt-14 text-accent" size={42} />
+        <div className="placement-result__trophy mx-auto mt-14 grid h-20 w-20 place-items-center rounded-full bg-secondary text-accent">
+          <Trophy size={42} />
+        </div>
         <p className="mt-7 text-xs font-bold uppercase tracking-[.17em] text-accent">
           Your starting point
         </p>
@@ -651,7 +673,7 @@ function Onboarding() {
           {rec.desc} You got{" "}
           <strong className="text-foreground">{score} of 12</strong>.
         </p>
-        <div className="mx-auto mt-9 max-w-md rounded-2xl border border-border bg-card p-5 text-left">
+        <div className="placement-result__path mx-auto mt-9 max-w-md rounded-2xl border border-border bg-card p-5 text-left">
           <strong className="text-sm">
             Recommended path · Unit {rec.unit}
           </strong>
@@ -669,6 +691,7 @@ function Onboarding() {
         <Button
           className="mt-4 w-full max-w-md"
           onClick={() => {
+            placementClick();
             patch({
               profile: {
                 name: name.trim() || "Darija learner",
@@ -814,7 +837,9 @@ function HomePage() {
         title="Your little corner of Darija"
       >
         <div className="flex gap-3">
-          <AvatarArt variant={state.profile?.avatar || avatarOptions[0].id} size="sm" />
+          <Link href="/profile" aria-label="Open your profile" className="nav-motion rounded-full">
+            <AvatarArt variant={state.profile?.avatar || avatarOptions[0].id} size="sm" />
+          </Link>
           <Stat
             icon={Flame}
             value={state.streak}
@@ -1129,6 +1154,12 @@ function LessonPage() {
         () => {
           const earnedXp = Math.max(1, Math.round(lesson.xp * (1 - mistakes / lesson.exercises.length)));
           completeLesson(lesson.id, earnedXp, lesson.duration);
+          const completedCount = state.completedLessons.includes(lesson.id)
+            ? state.completedLessons.length
+            : state.completedLessons.length + 1;
+          if (completedCount === 3 || completedCount === 5 || completedCount === 10) {
+            playSound("achievement", state.settings.sound);
+          }
           setLocation("/home");
         },
         state.settings.animations ? 850 : 0,
@@ -1293,12 +1324,17 @@ function LessonPage() {
       )}
       {celebrating && (
         <div className="fixed inset-0 z-30 grid place-items-center bg-background/85 px-5 backdrop-blur-sm">
-          <div className="celebrate rounded-[2rem] border border-accent/30 bg-card p-9 text-center shadow-[var(--shadow)]">
-            <Trophy className="mx-auto text-accent" size={38} />
+          <div className="lesson-complete-card celebrate rounded-[2rem] border border-accent/30 bg-card p-9 text-center shadow-[var(--shadow)]">
+            <div className="lesson-complete-badge mx-auto grid h-16 w-16 place-items-center rounded-full bg-secondary text-accent">
+              <Trophy size={38} />
+            </div>
             <h2 className="display mt-4 text-3xl font-bold">Lesson complete</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Your next phrase is waiting.
             </p>
+            <div className="mt-5 flex justify-center gap-1.5" aria-hidden="true">
+              {[0, 1, 2, 3, 4].map((item) => <span key={item} className="lesson-complete-dot" style={{ "--dot-index": item } as React.CSSProperties} />)}
+            </div>
           </div>
         </div>
       )}
@@ -1590,14 +1626,16 @@ function ProfilePage() {
         <Link
           href="/settings"
           aria-label="Open settings"
-          className="focus-ring rounded-xl border border-border bg-card p-3"
+          className="nav-motion focus-ring rounded-xl border border-border bg-card p-3"
         >
           <SettingsIcon size={18} />
         </Link>
       </Header>
       <div className="grid gap-5 lg:grid-cols-[.8fr_1.2fr]">
         <section className="rounded-[1.7rem] bg-primary p-7 text-primary-foreground">
-          <AvatarArt variant={profile?.avatar || avatarOptions[0].id} size="lg" />
+          <button type="button" className="nav-motion rounded-full" onClick={() => setEditing(true)} aria-label="Edit profile avatar">
+            <AvatarArt variant={profile?.avatar || avatarOptions[0].id} size="lg" />
+          </button>
           <h2 className="display mt-6 text-2xl font-bold">{profile?.name}</h2>
           <p className="mt-1 text-sm opacity-65">
             {levelCopy[profile?.level || "A0"].title}
@@ -1619,7 +1657,7 @@ function ProfilePage() {
             </div>
           </div>
         </section>
-        <section className="rounded-[1.7rem] border border-border bg-card p-6">
+        <Link href="/achievements" aria-label="Open all achievements" className="nav-motion block rounded-[1.7rem] border border-border bg-card p-6">
           <div className="flex justify-between">
             <h2 className="display text-xl font-bold">Achievements</h2>
             <span className="text-xs text-muted-foreground">
@@ -1644,7 +1682,7 @@ function ProfilePage() {
               </div>
             ))}
           </div>
-        </section>
+        </Link>
       </div>
       <section className="mt-5 rounded-2xl border border-border bg-card p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -1678,6 +1716,7 @@ function ProfilePage() {
           </Button>
           <Button
             variant="ghost"
+            className="no-motion"
             onClick={() => {
               if (
                 window.confirm(
@@ -1713,6 +1752,9 @@ function FeedbackDialog({
       setFeedbackState("idle");
       setFeedbackError("");
     }
+  }, [open]);
+  useEffect(() => {
+    if (open) playSound("modal-open");
   }, [open]);
   const submitFeedback = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1781,6 +1823,45 @@ function FeedbackDialog({
         )}
       </DialogContent>
     </Dialog>
+  );
+}
+
+function AchievementsPage() {
+  const { state } = useLocalApp();
+  return (
+    <Shell>
+      <Header eyebrow="Every step counts" title="Achievements">
+        <Link href="/profile" className="nav-motion text-sm font-bold text-primary">Back to profile</Link>
+      </Header>
+      <section className="mx-auto max-w-3xl rounded-[1.7rem] border border-border bg-card p-6 md:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5">
+          <div>
+            <p className="text-sm text-muted-foreground">Unlocked</p>
+            <strong className="display text-3xl">{state.achievements.length} / {achievements.length}</strong>
+          </div>
+          <div className="flex items-center gap-2 rounded-xl bg-secondary px-3 py-2 text-sm font-bold text-primary">
+            <Gem size={17} /> {state.diamonds} diamonds
+          </div>
+        </div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {achievements.map((item) => {
+            const unlocked = state.achievements.includes(item.id);
+            return (
+              <div key={item.id} className={cx("rounded-2xl border p-4 transition-colors", unlocked ? "border-accent/40 bg-accent/5" : "border-border opacity-55")}>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <strong className="block text-sm">{item.title}</strong>
+                    <span className="mt-1 block text-xs text-muted-foreground">{item.detail}</span>
+                  </div>
+                  <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-primary"><Gem size={14} /> +{item.diamonds}</span>
+                </div>
+                <p className="mt-4 text-[11px] font-bold uppercase tracking-[.12em] text-muted-foreground">{unlocked ? "Unlocked" : "Locked"}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </Shell>
   );
 }
 
@@ -1853,13 +1934,13 @@ function SettingsPage() {
                     </small>
                   </span>
                 </span>
-                <button
+                  <button
                   onClick={() => toggle(key)}
                   type="button"
                   aria-label={`${title}: ${state.settings[key] ? "on" : "off"}`}
                   aria-pressed={state.settings[key]}
                   className={cx(
-                    "focus-ring h-7 w-12 rounded-full p-1",
+                    "switch-motion focus-ring h-7 w-12 rounded-full p-1",
                     state.settings[key] ? "bg-primary" : "bg-muted",
                   )}
                 >
@@ -1880,13 +1961,13 @@ function SettingsPage() {
           <div className="mt-5 space-y-4">
             <div>
               <label className="text-sm font-bold" htmlFor="difficulty">Preferred difficulty</label>
-              <select id="difficulty" value={state.settings.difficulty} onChange={(event) => update({ difficulty: event.target.value as typeof state.settings.difficulty })} className="focus-ring mt-2 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm">
+              <select id="difficulty" value={state.settings.difficulty} onChange={(event) => update({ difficulty: event.target.value as typeof state.settings.difficulty })} className="no-motion focus-ring mt-2 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm">
                 <option value="gentle">Gentle start</option><option value="standard">Standard practice</option><option value="stretch">Stretch me</option>
               </select>
             </div>
             <div className="flex items-center justify-between gap-4">
               <span><strong className="block text-sm">Show transliteration</strong><small className="text-xs text-muted-foreground">Keep pronunciation help visible on vocabulary cards.</small></span>
-              <button type="button" aria-label={`Transliteration: ${state.settings.showTransliteration ? "on" : "off"}`} aria-pressed={state.settings.showTransliteration} onClick={() => update({ showTransliteration: !state.settings.showTransliteration })} className={cx("focus-ring h-7 w-12 rounded-full p-1", state.settings.showTransliteration ? "bg-primary" : "bg-muted")}><span className={cx("block h-5 w-5 rounded-full bg-card", state.settings.showTransliteration && "translate-x-5")} /></button>
+              <button type="button" aria-label={`Transliteration: ${state.settings.showTransliteration ? "on" : "off"}`} aria-pressed={state.settings.showTransliteration} onClick={() => update({ showTransliteration: !state.settings.showTransliteration })} className={cx("switch-motion focus-ring h-7 w-12 rounded-full p-1", state.settings.showTransliteration ? "bg-primary" : "bg-muted")}><span className={cx("block h-5 w-5 rounded-full bg-card", state.settings.showTransliteration && "translate-x-5")} /></button>
             </div>
           </div>
         </section>
@@ -1957,6 +2038,7 @@ function SettingsPage() {
             </Button>
             <Button
               variant="ghost"
+              className="no-motion"
               onClick={() => {
                 if (
                   window.confirm(
@@ -1992,6 +2074,7 @@ function AppRouter() {
       <Route path="/review" component={ReviewPage} />
       <Route path="/scenarios/:scenarioId" component={ScenarioPage} />
       <Route path="/profile" component={ProfilePage} />
+      <Route path="/achievements" component={AchievementsPage} />
       <Route path="/settings" component={SettingsPage} />
       <Route>
         <Shell>

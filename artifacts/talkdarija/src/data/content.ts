@@ -66,14 +66,14 @@ export const clickableVocabulary: Record<string, ClickableVocabularyEntry> = {
   ana: { darija: 'ana', english: 'I', romanization: 'a-na', example: 'ana mn lmaghrib' },
   nta: { darija: 'nta', english: 'you (male)', romanization: 'nta', example: 'nta mnin?' },
   nti: { darija: 'nti', english: 'you (female)', romanization: 'nti', example: 'nti mnin?' },
-  mn: { darija: 'mn', english: 'from', romanization: 'mn', example: 'ana mn lmaghrib' },
+  mn: { darija: 'men', english: 'from', romanization: 'mn', example: 'ana mn lmaghrib' },
   lmaghrib: { darija: 'lmaghrib', english: 'Morocco', romanization: 'l-maghrib', example: 'ana mn lmaghrib' },
   bghit: { darija: 'bghit', english: 'I want', romanization: 'b-ghit', example: 'bghit atay' },
   khasni: { darija: 'khasni', english: 'I need', romanization: 'kha-sni', example: 'khasni atay' },
   atay: { darija: 'atay', english: 'tea', romanization: 'a-tay', example: 'bghit atay' },
-  ma: { darija: 'ma', english: 'water', romanization: 'ma', example: 'bghit ma' },
+  ma: { darija: 'lma', english: 'water', romanization: 'ma', example: 'bghit ma' },
   fin: { darija: 'fin', english: 'where', romanization: 'fin', example: 'fin kayn sou9?' },
-  sou9: { darija: 'sou9', english: 'market', romanization: 'sooq', example: 'fin kayn sou9?' },
+  sou9: { darija: 'souq', english: 'market', romanization: 'sooq', example: 'fin kayn sou9?' },
   hna: { darija: 'hna', english: 'here', romanization: 'hna', example: 'hna' },
   ltema: { darija: 'ltema', english: 'there', romanization: 'l-te-ma', example: 'ltema' },
   fhemt: { darija: 'fhemt', english: 'I understood', romanization: 'fhemt', example: 'fhemt' },
@@ -95,17 +95,17 @@ export const clickableVocabulary: Record<string, ClickableVocabularyEntry> = {
 
 export const placementQuestions = [
   { id:'p1', category:'Greetings', difficulty:1, prompt:'What does “salam” mean?', options:['Goodbye','Hello / peace','Please','Thank you'], answer:'Hello / peace', explanation:'Salam is the everyday hello in Morocco. You can also say salam 3likom.' },
-  { id:'p2', category:'Greetings', difficulty:1, prompt:'Choose the best reply to “labas?”', options:['Bslama','Labas, hamdullah','Chno?','Smah lia'], answer:'Labas, hamdullah', explanation:'Labas? means “Are you well?” A warm reply is labas, hamdullah — well, thank God.' },
-  { id:'p3', category:'People', difficulty:1, prompt:'“Chno smitek?” asks for your…', options:['home','name','age','city'], answer:'name', explanation:'Chno smitek? literally asks “what is your name?” Say smiti… to answer.' },
-  { id:'p4', category:'People', difficulty:2, prompt:'Complete: “Smiti ___.”', options:['mzyan','Sara','f lmdina','bslama'], answer:'Sara', explanation:'Smiti means “my name is”. Add your name after it.' },
+  { id:'p2', category:'Greetings', difficulty:1, prompt:'Choose the best reply to “salam”', options:['Bslama','Labas, hamdullah','Chno?','Wa alikom salam'], answer:'Wa alikom salam', explanation:'Wa alikom salam is the standard reply to “salam”, meaning “and upon you be peace”.' },
+  { id:'p3', category:'People', difficulty:1, prompt:'“Chno smitek?” asks for your…', options:['Home','Name','Age','City'], answer:'Name', explanation:'Chno smitek? literally asks “what is your name?” Say smiti… to answer.' },
+  { id:'p4', category:'People', difficulty:2, prompt:'“Smiti ___.” anwser with your…', options:['Age','Name','Height','City'], answer:'Name', explanation:'Smiti means “my name is”. Add your name after it.' },
   { id:'p5', category:'Places', difficulty:2, prompt:'What does “fin sakn?” mean?', options:['Where do you live?','What do you want?','How are you?','Where are you going?'], answer:'Where do you live?', explanation:'Fin means where and sakn means living. Together: where do you live?' },
   { id:'p6', category:'Needs', difficulty:2, prompt:'“Bghit atay” means…', options:['I drank tea','I want tea','Tea is good','Make tea'], answer:'I want tea', explanation:'Bghit is the useful beginner phrase “I want”. Atay is Moroccan mint tea.' },
   { id:'p7', category:'Daily life', difficulty:3, prompt:'Translate: “Kanqra darija.”', options:['I teach Darija','I am learning Darija','I speak Arabic','I write Darija'], answer:'I am learning Darija', explanation:'The prefix kan- often marks an action happening regularly. Qra means study/read.' },
-  { id:'p8', category:'Repair', difficulty:3, prompt:'You missed what someone said. Choose:', options:['Ma fhemtch','Ma3lish','Bssa7a','Aji hna'], answer:'Ma fhemtch', explanation:'Ma fhemtch means “I didn’t understand”. It is a kind, useful repair phrase.' },
+  { id:'p8', category:'Repair', difficulty:3, prompt:'You didn\'t understand what someone said. Choose:', options:['Ma fhemtch','Ma3lish','Bssa7a','Aji hna'], answer:'Ma fhemtch', explanation:'Ma fhemtch means “I didn’t understand”. It is a kind, useful repair phrase.' },
   { id:'p9', category:'Conversation', difficulty:3, prompt:'“Kidayr?” is closest to…', options:['What is this?','How are you?','Where are you?','Who are you?'], answer:'How are you?', explanation:'Kidayr (to a man) and kidayra (to a woman) mean how are you / how is it going.' },
-  { id:'p10', category:'Grammar', difficulty:4, prompt:'Pick the natural sentence for “I live in Rabat.”', options:['Sakn Rabat','Sakna f Rabat','Ana sakn f Rabat','Ana kanqra Rabat'], answer:'Ana sakn f Rabat', explanation:'Ana is I, sakn is live (masculine form), and f means in.' },
+  { id:'p10', category:'Grammar', difficulty:4, prompt:'Pick the natural sentence for “I live in Rabat.”', options:['Sakn Rabat','Sakna Rabat','Ana sakn f Rabat','Ana kanqra Rabat'], answer:'Ana sakn f Rabat', explanation:'Ana is I, sakn is live (masculine form), and f means in.' },
   { id:'p11', category:'Grammar', difficulty:4, prompt:'What does “ghadi nmshi” express?', options:['I went','I am going to go','I want to eat','I am sitting'], answer:'I am going to go', explanation:'Ghadi + verb is a handy future construction: I am going to…' },
-  { id:'p12', category:'Conversation', difficulty:4, prompt:'Someone says “bslama”. You say…', options:['Bslama','Labas','Chokran','Sbah lkhir'], answer:'Bslama', explanation:'Bslama is goodbye — literally “with peace”. Mirror it back when leaving.' },
+  { id:'p12', category:'Conversation', difficulty:4, prompt:'Someone says “Bslama”. You say…', options:['Chokran','Labas','Bslama','Sbah lkhir'], answer:'Bslama', explanation:'Bslama is goodbye — literally “with peace”. Mirror it back when leaving.' },
 ];
 
 const unitSeeds: Array<[string, string, string, Level, string]> = [
@@ -307,10 +307,14 @@ export const vocabulary: Vocabulary[] = Object.entries(vocabularySources).flatMa
 export const vocabularyCount = vocabulary.length;
 
 export const achievements = [
-  { id:'first-step', title:'First step', detail:'Complete your first lesson', icon:'flag' },
-  { id:'steady-sun', title:'Steady sun', detail:'Practice three days in a row', icon:'sun' },
-  { id:'word-hoarder', title:'Word collector', detail:'Learn ten words', icon:'book' },
-  { id:'good-ear', title:'Good ear', detail:'Answer 25 questions correctly', icon:'ear' },
-  { id:'open-door', title:'Open door', detail:'Complete five lessons', icon:'door' },
-  { id:'pathfinder', title:'Pathfinder', detail:'Complete ten lessons', icon:'map' },
+  { id:'first-step', title:'First step', detail:'Complete your first lesson', icon:'flag', diamonds:5 },
+  { id:'steady-sun', title:'Steady sun', detail:'Practice three days in a row', icon:'sun', diamonds:8 },
+  { id:'word-hoarder', title:'Word collector', detail:'Learn ten words', icon:'book', diamonds:10 },
+  { id:'good-ear', title:'Good ear', detail:'Answer 25 questions correctly', icon:'ear', diamonds:12 },
+  { id:'open-door', title:'Open door', detail:'Complete five lessons', icon:'door', diamonds:15 },
+  { id:'pathfinder', title:'Pathfinder', detail:'Complete ten lessons', icon:'map', diamonds:20 },
+  { id:'conversation-starter', title:'Conversation starter', detail:'Complete two lessons', icon:'chat', diamonds:7 },
+  { id:'vocab-builder', title:'Vocabulary builder', detail:'Learn 25 words', icon:'spark', diamonds:18 },
+  { id:'practice-fire', title:'Practice fire', detail:'Practice seven days in a row', icon:'flame', diamonds:25 },
+  { id:'deep-listener', title:'Deep listener', detail:'Answer 50 questions correctly', icon:'ear', diamonds:30 },
 ];
