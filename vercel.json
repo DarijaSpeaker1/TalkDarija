@@ -1,8 +1,13 @@
 {
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/home", "destination": "/index.html" },
+    { "source": "/learn", "destination": "/index.html" },
+    { "source": "/lesson/:lessonId", "destination": "/index.html" },
+    { "source": "/vocabulary", "destination": "/index.html" },
+    { "source": "/review", "destination": "/index.html" },
+    { "source": "/scenarios/:scenarioId", "destination": "/index.html" },
+    { "source": "/profile", "destination": "/index.html" },
+    { "source": "/settings", "destination": "/index.html" }
   ]
 }
