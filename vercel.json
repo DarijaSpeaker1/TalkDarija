@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "artifacts/talkdarija/dist/public",
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/home", "destination": "/index.html" },
