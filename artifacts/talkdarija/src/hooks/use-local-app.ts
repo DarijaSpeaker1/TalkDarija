@@ -1,26 +1,236 @@
-import { useCallback, useEffect, useState } from 'react';
-import type { Level } from '@/data/content';
+import { useCallback, useEffect, useState } from "react";
+import { lessons, type Level } from "@/data/content";
 
 export type AppState = {
-  profile: null | { name: string; level: Level; score: number; selfLevel: string; startedAt: string };
-  settings: { theme: 'light' | 'dark'; sound: boolean; animations: boolean; dailyGoal: number };
-  xp: number; hearts: number; streak: number; diamonds: number; dailyMinutes: number; lastPractice: string | null;
-  completedLessons: string[]; learnedWords: string[]; currentLessonId: string; currentQuestion: number; savedAnswers: Record<string,string>;
+  profile: null | {
+    name: string;
+    avatar: string;
+    level: Level;
+    score: number;
+    selfLevel: string;
+    purpose: string;
+    startedAt: string;
+  };
+  settings: {
+    theme: "light" | "dark" | "system";
+    sound: boolean;
+    animations: boolean;
+    dailyGoal: number;
+    difficulty: "gentle" | "standard" | "stretch";
+    showTransliteration: boolean;
+  };
+  xp: number;
+  premium: boolean;
+  hearts: number;
+  streak: number;
+  diamonds: number;
+  dailyMinutes: number;
+  dailyMinutesDate: string | null;
+  lastPractice: string | null;
+  completedLessons: string[];
+  learnedWords: string[];
+  dailyWordIds: string[];
+  dailyQuestDate: string | null;
+  dailyLessons: number;
+  dailyWords: number;
+  dailyExercises: number;
+  dailyMistakesReviewed: number;
+  totalExercises: number;
+  mistakeExerciseIds: string[];
+  currentLessonId: string;
+  currentQuestion: number;
+  savedAnswers: Record<string, string>;
   achievements: string[];
 };
-const key = 'talkdarija-state-v1';
-const defaults: AppState = { profile:null, settings:{theme:'light',sound:true,animations:true,dailyGoal:5}, xp:0, hearts:5, streak:0, diamonds:18, dailyMinutes:0, lastPractice:null, completedLessons:[], learnedWords:[], currentLessonId:'lesson-1', currentQuestion:0, savedAnswers:{}, achievements:[] };
-const load = (): AppState => { try { const raw = localStorage.getItem(key); return raw ? { ...defaults, ...JSON.parse(raw), settings:{...defaults.settings,...JSON.parse(raw).settings} } : defaults; } catch { return defaults; } };
+const localDay = (date = new Date()) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+const key = "talkdarija-state-v1";
+const defaults: AppState = {
+  profile: null,
+  settings: { theme: "light", sound: true, animations: true, dailyGoal: 5, difficulty: "gentle", showTransliteration: true },
+  xp: 0,
+  premium: false,
+  hearts: 5,
+  streak: 0,
+  diamonds: 18,
+  dailyMinutes: 0,
+  dailyMinutesDate: null,
+  lastPractice: null,
+  completedLessons: [],
+  learnedWords: [],
+  dailyWordIds: [],
+  dailyQuestDate: null,
+  dailyLessons: 0,
+  dailyWords: 0,
+  dailyExercises: 0,
+  dailyMistakesReviewed: 0,
+  totalExercises: 0,
+  mistakeExerciseIds: [],
+  currentLessonId: "lesson-1",
+  currentQuestion: 0,
+  savedAnswers: {},
+  achievements: [],
+};
+const load = (): AppState => {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return defaults;
+    const parsed = JSON.parse(raw) as Partial<AppState>;
+    const merged = {
+      ...defaults,
+      ...parsed,
+      hearts: parsed.hearts ?? defaults.hearts,
+      settings: { ...defaults.settings, ...(parsed.settings || {}) },
+    };
+    return merged;
+  } catch {
+    return defaults;
+  }
+};
 let sharedState: AppState = load();
 const listeners = new Set<(state: AppState) => void>();
-const publish = (next: AppState) => { sharedState = next; listeners.forEach(listener => listener(next)); };
+const publish = (next: AppState) => {
+  sharedState = next;
+  listeners.forEach((listener) => listener(next));
+};
 export function useLocalApp() {
   const [state, setLocalState] = useState<AppState>(sharedState);
-  useEffect(() => { const listener = (next: AppState) => setLocalState(next); listeners.add(listener); return () => { listeners.delete(listener); }; }, []);
-  useEffect(() => { localStorage.setItem(key, JSON.stringify(state)); document.documentElement.classList.toggle('dark', state.settings.theme === 'dark'); }, [state]);
-  const setState = useCallback((next: AppState | ((current: AppState) => AppState)) => publish(typeof next === 'function' ? next(sharedState) : next), []);
-  const patch = useCallback((changes: Partial<AppState>) => publish({...sharedState,...changes}), []);
-  const completeLesson = useCallback((id: string, xp: number) => publish({...sharedState, completedLessons:sharedState.completedLessons.includes(id)?sharedState.completedLessons:[...sharedState.completedLessons,id], xp:sharedState.xp+xp, dailyMinutes:sharedState.dailyMinutes+5, lastPractice:new Date().toISOString(), streak:Math.max(1,sharedState.streak), hearts:Math.min(5,sharedState.hearts+1), currentLessonId:`lesson-${Math.min(50, Number(id.split('-')[1])+1)}`, achievements:sharedState.achievements.includes('first-step')?sharedState.achievements:[...sharedState.achievements,'first-step']}), []);
-  const reset = useCallback(() => { localStorage.removeItem(key); publish(defaults); }, []);
-  return {state, setState, patch, completeLesson, reset};
+  useEffect(() => {
+    const listener = (next: AppState) => setLocalState(next);
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+    };
+  }, []);
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const applyTheme = () => document.documentElement.classList.toggle("dark", state.settings.theme === "dark" || (state.settings.theme === "system" && media.matches));
+    applyTheme();
+    media.addEventListener("change", applyTheme);
+    return () => media.removeEventListener("change", applyTheme);
+  }, [state]);
+  const setState = useCallback(
+    (next: AppState | ((current: AppState) => AppState)) =>
+      publish(typeof next === "function" ? next(sharedState) : next),
+    [],
+  );
+  const patch = useCallback(
+    (changes: Partial<AppState>) => publish({ ...sharedState, ...changes }),
+    [],
+  );
+  const completeLesson = useCallback((id: string, xp: number, minutes = 5) => {
+    const lessonIndex = lessons.findIndex((lesson) => lesson.id === id);
+    const nextLesson = lessonIndex >= 0 ? lessons[lessonIndex + 1] : undefined;
+    const alreadyCompleted = sharedState.completedLessons.includes(id);
+    const completedLessons = alreadyCompleted
+      ? sharedState.completedLessons
+      : [...sharedState.completedLessons, id];
+    const achievements = new Set(sharedState.achievements);
+    achievements.add("first-step");
+    if (completedLessons.length >= 10) achievements.add("pathfinder");
+    if (completedLessons.length >= 5) achievements.add("open-door");
+    const today = localDay();
+    const lastDay = sharedState.lastPractice
+      ? localDay(new Date(sharedState.lastPractice))
+      : null;
+    const yesterday = localDay(new Date(Date.now() - 86400000));
+    const isNewQuestDay = sharedState.dailyQuestDate !== today;
+    const isNewMinutesDay = sharedState.dailyMinutesDate !== today;
+    const nextStreak =
+      lastDay === today
+        ? sharedState.streak
+        : lastDay === yesterday
+          ? sharedState.streak + 1
+          : 1;
+        if (nextStreak >= 3) achievements.add("steady-sun");
+    publish({
+      ...sharedState,
+      completedLessons,
+      xp: alreadyCompleted ? sharedState.xp : sharedState.xp + xp,
+      dailyMinutesDate: today,
+      dailyMinutes: alreadyCompleted ? (isNewMinutesDay ? 0 : sharedState.dailyMinutes) : (isNewMinutesDay ? minutes : sharedState.dailyMinutes + minutes),
+      dailyQuestDate: today,
+      dailyLessons: isNewQuestDay ? 1 : sharedState.dailyLessons + (alreadyCompleted ? 0 : 1),
+      dailyWords: isNewQuestDay ? 0 : sharedState.dailyWords,
+      dailyExercises: isNewQuestDay ? 0 : sharedState.dailyExercises,
+      dailyWordIds: isNewQuestDay ? [] : sharedState.dailyWordIds,
+      lastPractice: new Date().toISOString(),
+      hearts: alreadyCompleted
+        ? sharedState.hearts
+        : Math.min(5, sharedState.hearts + 1),
+      currentLessonId: nextLesson?.id || id,
+      currentQuestion: 0,
+      achievements: [...achievements],
+      ...(alreadyCompleted ? {} : { streak: Math.max(1, nextStreak) }),
+    });
+  }, []);
+  const recordExercise = useCallback(() => {
+    const today = localDay();
+    const isNewQuestDay = sharedState.dailyQuestDate !== today;
+    publish({
+      ...sharedState,
+      dailyQuestDate: today,
+      dailyLessons: isNewQuestDay ? 0 : sharedState.dailyLessons,
+      dailyWords: isNewQuestDay ? 0 : sharedState.dailyWords,
+      dailyExercises: isNewQuestDay ? 1 : sharedState.dailyExercises + 1,
+      totalExercises: sharedState.totalExercises + 1,
+      achievements: sharedState.totalExercises + 1 >= 25
+        ? Array.from(new Set([...sharedState.achievements, "good-ear"]))
+        : sharedState.achievements,
+    });
+  }, []);
+  const recordMistake = useCallback((exerciseId: string) => {
+    if (sharedState.mistakeExerciseIds.includes(exerciseId)) return;
+    publish({
+      ...sharedState,
+      mistakeExerciseIds: [...sharedState.mistakeExerciseIds, exerciseId],
+    });
+  }, []);
+  const recordMistakeReview = useCallback((exerciseId: string) => {
+    const today = localDay();
+    const isNewQuestDay = sharedState.dailyQuestDate !== today;
+    publish({
+      ...sharedState,
+      mistakeExerciseIds: sharedState.mistakeExerciseIds.filter((id) => id !== exerciseId),
+      dailyQuestDate: today,
+      dailyMistakesReviewed: isNewQuestDay ? 1 : sharedState.dailyMistakesReviewed + 1,
+      dailyLessons: isNewQuestDay ? 0 : sharedState.dailyLessons,
+      dailyWords: isNewQuestDay ? 0 : sharedState.dailyWords,
+      dailyExercises: isNewQuestDay ? 0 : sharedState.dailyExercises,
+    });
+  }, []);
+  const markWordLearned = useCallback((id: string) => {
+    const today = localDay();
+    const isNewQuestDay = sharedState.dailyQuestDate !== today;
+    const learned = sharedState.learnedWords.includes(id);
+    const alreadyCountedToday = sharedState.dailyWordIds.includes(id);
+    publish({
+      ...sharedState,
+      learnedWords: learned
+        ? sharedState.learnedWords.filter((item) => item !== id)
+        : [...sharedState.learnedWords, id],
+      dailyQuestDate: today,
+      dailyLessons: isNewQuestDay ? 0 : sharedState.dailyLessons,
+      dailyWords: isNewQuestDay
+        ? learned ? 0 : 1
+        : sharedState.dailyWords + (!learned && !alreadyCountedToday ? 1 : 0),
+      dailyWordIds: isNewQuestDay
+        ? learned ? [] : [id]
+        : !learned && !alreadyCountedToday ? [...sharedState.dailyWordIds, id] : sharedState.dailyWordIds,
+      dailyExercises: isNewQuestDay ? 0 : sharedState.dailyExercises,
+      achievements: !learned && sharedState.learnedWords.length + 1 >= 10
+        ? Array.from(new Set([...sharedState.achievements, "word-hoarder"]))
+        : sharedState.achievements,
+    });
+  }, []);
+  const reset = useCallback(() => {
+    localStorage.removeItem(key);
+    publish(defaults);
+  }, []);
+  return { state, setState, patch, completeLesson, recordExercise, recordMistake, recordMistakeReview, markWordLearned, reset };
 }

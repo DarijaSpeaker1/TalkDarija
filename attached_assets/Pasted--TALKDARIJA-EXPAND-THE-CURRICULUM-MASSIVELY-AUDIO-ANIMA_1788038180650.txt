@@ -1,0 +1,1255 @@
+# TALKDARIJA — EXPAND THE CURRICULUM MASSIVELY + AUDIO & ANIMATION
+
+The current TalkDarija application is already working well.
+
+This is an **expansion and polish task**.
+
+**DO NOT rebuild the existing application.**
+**DO NOT delete working functionality.**
+**DO NOT replace the existing lesson engine, onboarding, placement test, XP, hearts, streaks, profile, vocabulary, or navigation.**
+
+Your job is to make the application feel much closer to a **complete Moroccan Darija learning platform** by doing TWO major things:
+
+1. Add a very large, high-quality Darija curriculum with substantially more vocabulary and lessons.
+2. Add polished animations, sound effects, and Darija pronunciation/voice features.
+
+---
+
+# PART 1 — MASSIVELY EXPAND THE CURRICULUM
+
+The current number of lessons and vocabulary items is NOT enough.
+
+I want TalkDarija to have a **large structured curriculum** from absolute beginner through advanced Darija.
+
+Do not create dozens of nearly identical lessons just to increase the number.
+
+Every lesson must teach something meaningful.
+
+Every lesson should contain useful vocabulary, sentences, explanations, and exercises.
+
+---
+
+# 1. TARGET CURRICULUM SIZE
+
+Create at least:
+
+## 20+ Units
+
+and approximately:
+
+## 100–150+ lessons
+
+and at least:
+
+## 1,000+ vocabulary entries
+
+If the existing architecture can support more, create even more.
+
+The content should be structured so additional units and vocabulary can easily be added later.
+
+---
+
+# 2. COURSE STRUCTURE
+
+Use a progression similar in philosophy to a modern language-learning application:
+
+```text
+Course
+│
+├── Beginner
+│   ├── Unit 1
+│   ├── Unit 2
+│   ├── Unit 3
+│   └── ...
+│
+├── Intermediate
+│   ├── Unit 8
+│   ├── Unit 9
+│   └── ...
+│
+└── Advanced
+    ├── Unit 15
+    ├── Unit 16
+    └── ...
+```
+
+Do NOT copy Duolingo's exact course structure or UI.
+
+Create an original TalkDarija curriculum.
+
+---
+
+# 3. BEGINNER CURRICULUM
+
+Build a comprehensive beginner foundation.
+
+Suggested units:
+
+### UNIT 1 — Greetings & Introductions
+
+Lessons:
+
+1. Salam & Basic Greetings
+2. Labas?
+3. My Name
+4. Where Are You From?
+5. Basic Politeness
+6. Review
+
+Vocabulary:
+
+* salam
+* labas
+* mzyan
+* chokran
+* 3afak
+* sma7 lia
+* marhba
+* bslama
+* sbah lkhir
+* msa lkhir
+* tsba7 3la khir
+* ahlan
+* hamdullah
+* iyyeh
+* la
+
+---
+
+### UNIT 2 — Numbers
+
+Lessons:
+
+1. 0–10
+2. 11–20
+3. 20–100
+4. Age
+5. Prices
+6. Review
+
+---
+
+### UNIT 3 — Family
+
+Lessons:
+
+1. Parents
+2. Brothers & Sisters
+3. Extended Family
+4. Talking About Family
+5. Possession
+6. Review
+
+---
+
+### UNIT 4 — Everyday Verbs
+
+Lessons:
+
+1. Eat
+2. Drink
+3. Sleep
+4. Go
+5. Come
+6. Study
+7. Work
+8. Review
+
+---
+
+### UNIT 5 — School
+
+Lessons:
+
+1. Classroom
+2. Subjects
+3. Teachers
+4. Students
+5. Studying
+6. Homework
+7. Exams
+8. Review
+
+---
+
+### UNIT 6 — Home
+
+Lessons:
+
+1. Rooms
+2. Furniture
+3. Objects
+4. Daily Activities
+5. Describing Your Home
+6. Review
+
+---
+
+### UNIT 7 — Food & Drinks
+
+Lessons:
+
+1. Basic Food
+2. Fruits
+3. Vegetables
+4. Drinks
+5. Meals
+6. Moroccan Food
+7. Restaurant Vocabulary
+8. Review
+
+---
+
+### UNIT 8 — Shopping
+
+Lessons:
+
+1. Shops
+2. Asking the Price
+3. Expensive / Cheap
+4. Colors
+5. Sizes
+6. Buying Something
+7. Bargaining
+8. Review
+
+---
+
+### UNIT 9 — Time & Dates
+
+Lessons:
+
+1. Days
+2. Months
+3. Today / Tomorrow / Yesterday
+4. Telling Time
+5. Schedules
+6. Review
+
+---
+
+### UNIT 10 — Places & Directions
+
+Lessons:
+
+1. City
+2. Streets
+3. Left / Right
+4. Near / Far
+5. Asking for Directions
+6. Transportation
+7. Review
+
+---
+
+# 4. INTERMEDIATE CURRICULUM
+
+Create a large intermediate section.
+
+Suggested topics:
+
+### UNIT 11 — Daily Life
+
+* Morning routine
+* School/work routine
+* Weekend
+* Free time
+* Habits
+* Frequency
+
+### UNIT 12 — Describing People
+
+* Appearance
+* Personality
+* Emotions
+* Relationships
+* Comparisons
+
+### UNIT 13 — Grammar Foundations
+
+* pronouns
+* present tense
+* past tense
+* future
+* negation
+* questions
+* possession
+* demonstratives
+* prepositions
+
+### UNIT 14 — Conversations
+
+* meeting someone
+* asking questions
+* making requests
+* accepting
+* refusing
+* agreeing
+* disagreeing
+* apologizing
+
+### UNIT 15 — Travel
+
+* airport
+* train
+* taxi
+* hotel
+* directions
+* tickets
+* destinations
+* travel problems
+
+### UNIT 16 — Health & Feelings
+
+* body
+* common symptoms
+* feeling sick
+* tiredness
+* emotions
+* visiting a doctor
+
+### UNIT 17 — Work & Studies
+
+* jobs
+* workplace
+* university
+* studying
+* plans
+* goals
+* responsibilities
+
+---
+
+# 5. ADVANCED CURRICULUM
+
+Create advanced lessons that are genuinely harder.
+
+### UNIT 18 — Natural Conversation
+
+Teach:
+
+* conversational connectors
+* filler words
+* natural responses
+* informal conversation
+* conversational shortcuts
+
+### UNIT 19 — Moroccan Expressions
+
+Teach natural expressions and idioms.
+
+Every expression must include:
+
+* Darija
+* transliteration
+* meaning
+* context
+* example sentence
+
+Do NOT invent fake idioms.
+
+### UNIT 20 — Advanced Grammar
+
+Include:
+
+* complex sentence structures
+* conditional constructions
+* relative clauses
+* nuanced negation
+* tense/aspect distinctions
+* indirect speech
+
+### UNIT 21 — Storytelling
+
+Teach users how to:
+
+* describe events
+* tell stories
+* explain what happened
+* sequence events
+* give opinions
+
+### UNIT 22 — Opinions & Arguments
+
+Teach:
+
+* agreeing
+* disagreeing
+* explaining opinions
+* giving reasons
+* comparing ideas
+* expressing uncertainty
+
+### UNIT 23 — Advanced Listening/Reading
+
+Create longer Darija passages.
+
+The user should read or eventually listen to:
+
+* conversations
+* messages
+* short stories
+* everyday situations
+
+Then answer comprehension questions.
+
+---
+
+# 6. VOCABULARY EXPANSION
+
+Create a LARGE vocabulary database.
+
+Target:
+
+**1,000+ useful vocabulary entries.**
+
+Organize vocabulary by category.
+
+Categories should include:
+
+* greetings
+* family
+* people
+* numbers
+* colors
+* food
+* drinks
+* fruits
+* vegetables
+* animals
+* school
+* university
+* work
+* professions
+* home
+* furniture
+* clothing
+* body
+* health
+* emotions
+* personality
+* weather
+* nature
+* transportation
+* travel
+* city
+* shopping
+* money
+* technology
+* internet
+* hobbies
+* sports
+* entertainment
+* time
+* dates
+* directions
+* verbs
+* adjectives
+* adverbs
+* connectors
+* question words
+* common expressions
+* idioms
+
+---
+
+# 7. VOCABULARY QUALITY
+
+Every vocabulary entry should ideally contain:
+
+```ts
+{
+  darija: string,
+  roman: string,
+  english: string,
+  category: string,
+  example?: string
+}
+```
+
+Example:
+
+```text
+Darija:
+mzyan
+
+Romanization:
+mzyan
+
+English:
+good / nice
+
+Category:
+adjective
+
+Example:
+Had lmakla mzyana.
+```
+
+Do not create fake translations.
+
+Do not randomly translate Darija into unnatural English.
+
+---
+
+# 8. VERB DATABASE
+
+Create a strong collection of common Darija verbs.
+
+Include verbs such as:
+
+* bgha
+* kla
+* chreb
+* mcha
+* ja
+* dar
+* gal
+* chaf
+* sme3
+* 3raf
+* fheme
+* qra
+* kteb
+* khdem
+* 3awen
+* khda
+* 3ta
+* jbed
+* dkhel
+* khrej
+* bda
+* sala
+* 3awd
+* n3es
+* fayeq
+* tsenna
+* lqa
+
+and many more.
+
+Teach verbs in actual sentences rather than only memorization lists.
+
+---
+
+# 9. DARija TRANSLITERATION
+
+Be consistent.
+
+Support common Moroccan Latin-number conventions:
+
+```text
+3 = ع
+7 = ح
+9 = ق
+5 / kh = خ
+ch / sh = ش
+gh = غ
+```
+
+Do not force one spelling when multiple common spellings exist.
+
+Where appropriate, mention variants.
+
+Example:
+
+```text
+chno / shno
+```
+
+But do not confuse beginners by constantly presenting variants.
+
+---
+
+# 10. EXERCISE VARIETY
+
+With the expanded curriculum, significantly increase exercise variety.
+
+Use:
+
+### Multiple choice
+
+### Translation
+
+### Reverse translation
+
+### Fill in the blank
+
+### Sentence ordering
+
+### Word selection
+
+### Matching
+
+### Vocabulary recognition
+
+### Context selection
+
+### Reading comprehension
+
+### Conversation completion
+
+### Grammar selection
+
+### Error correction
+
+Example:
+
+> Ana ___ lmdrasa kol nhar.
+
+Options:
+
+* kanmchi
+* kanakol
+* kan3ess
+* kanchreb
+
+Correct:
+
+kanmchi
+
+---
+
+# 11. LESSON LENGTH
+
+Normal lessons:
+
+**8–15 exercises**
+
+Review lessons:
+
+**15–25 exercises**
+
+Story/comprehension lessons:
+
+**5–10 larger exercises**
+
+Do not make every lesson identical.
+
+---
+
+# 12. REVIEW LESSONS
+
+Every few lessons include a review.
+
+Review lessons should combine vocabulary from previous lessons.
+
+Example:
+
+```text
+Unit 1
+Lesson 1
+Lesson 2
+Lesson 3
+Lesson 4
+Lesson 5
+↓
+REVIEW
+```
+
+Review should not introduce lots of new vocabulary.
+
+---
+
+# 13. UNIT TESTS
+
+At the end of every major unit, create a unit test.
+
+Example:
+
+```text
+UNIT 5 COMPLETE
+
+Take the Unit Test
+```
+
+The test should contain:
+
+* vocabulary
+* translation
+* grammar
+* comprehension
+
+Require a good score to fully complete the unit.
+
+---
+
+# 14. MASTERY
+
+Track vocabulary mastery.
+
+For each word:
+
+```text
+seen
+correct
+incorrect
+lastReviewed
+mastery
+```
+
+Possible mastery:
+
+```text
+0% — New
+25% — Learning
+50% — Familiar
+75% — Strong
+100% — Mastered
+```
+
+Use this information for review.
+
+---
+
+# 15. ADAPTIVE REVIEW
+
+If a user repeatedly gets:
+
+> "mzyan"
+
+wrong,
+
+show it more often.
+
+If they consistently answer it correctly:
+
+show it less often.
+
+Do NOT remove mastered vocabulary permanently.
+
+It should occasionally return for review.
+
+---
+
+# PART 2 — AUDIO & VOICE
+
+Now add the complete audio system.
+
+---
+
+# 16. CENTRAL AUDIO SYSTEM
+
+Create a reusable audio utility.
+
+For example:
+
+```text
+src/utils/audio.ts
+```
+
+Functions can include:
+
+```ts
+playCorrectSound()
+playIncorrectSound()
+playClickSound()
+playHeartLostSound()
+playHeartGainedSound()
+playXpSound()
+playAchievementSound()
+playLessonCompleteSound()
+playUnlockSound()
+playStreakSound()
+```
+
+Keep audio logic centralized.
+
+---
+
+# 17. DARija SPEECH
+
+Create:
+
+```ts
+speakDarija(text)
+```
+
+Use Web Speech API where appropriate.
+
+Gracefully handle browsers that don't support it.
+
+Never allow voice failure to break the application.
+
+---
+
+# 18. SPEAKER BUTTON
+
+For vocabulary:
+
+```text
+mzyan       🔊
+good
+```
+
+For sentences:
+
+```text
+Bghit nakol.       🔊
+I want to eat.
+```
+
+Clicking the speaker should pronounce the Darija.
+
+Add a subtle speaking animation.
+
+---
+
+# 19. AUDIO IN LESSONS
+
+Where useful, show a speaker button next to Darija.
+
+Users should be able to listen before answering.
+
+Do not automatically speak every single exercise.
+
+Use voice strategically.
+
+---
+
+# 20. AUDIO SETTINGS
+
+Add:
+
+```text
+Sound Effects
+ON / OFF
+
+Darija Voice
+ON / OFF
+
+Music
+ON / OFF
+```
+
+Persist settings.
+
+---
+
+# PART 3 — ANIMATIONS
+
+Make the entire app feel alive.
+
+---
+
+# 21. CORRECT ANSWER
+
+When correct:
+
+* card reacts
+* checkmark appears
+* small bounce
+* positive SFX
+* XP animation
+
+---
+
+# 22. INCORRECT ANSWER
+
+When incorrect:
+
+* selected answer shakes briefly
+* incorrect indicator appears
+* correct answer becomes clear
+* soft negative SFX
+* heart animation if applicable
+
+Do not shake the entire page.
+
+---
+
+# 23. XP
+
+When XP increases:
+
+```text
++20 XP
+```
+
+Animate upward and fade.
+
+---
+
+# 24. HEARTS
+
+When losing a heart:
+
+❤️
+
+brief shake → shrink → disappear.
+
+When gaining:
+
+heart pops into place.
+
+---
+
+# 25. LESSON COMPLETION
+
+Create a satisfying celebration:
+
+```text
+🎉
+
+LESSON COMPLETE!
+
++25 XP
++5 💎
+```
+
+Use:
+
+* animations
+* sound
+* subtle confetti
+
+---
+
+# 26. PERFECT SCORE
+
+If the user gets 100%:
+
+```text
+🏆 PERFECT!
+
+10 / 10
+```
+
+Use a stronger celebration.
+
+---
+
+# 27. STREAKS
+
+Animate streak increases:
+
+```text
+🔥 7 DAY STREAK!
+```
+
+Special milestones:
+
+* 3 days
+* 7 days
+* 14 days
+* 30 days
+* 50 days
+* 100 days
+
+---
+
+# 28. ACHIEVEMENTS
+
+Animate achievement unlocks.
+
+Example:
+
+```text
+🏆 ACHIEVEMENT UNLOCKED
+
+Vocabulary Builder
+
+You learned 50 words!
+```
+
+Add SFX.
+
+---
+
+# 29. COURSE PATH
+
+Animate:
+
+* lesson unlocking
+* completion
+* current lesson
+* progress
+
+Do not continuously animate every element.
+
+---
+
+# 30. ONBOARDING
+
+Make the onboarding feel premium.
+
+Flow:
+
+```text
+🇲🇦
+Marhba bik!
+↓
+Choose your level
+↓
+Placement test
+↓
+Analyzing...
+↓
+Your level is...
+↓
+Your course is ready!
+```
+
+Use smooth transitions.
+
+---
+
+# 31. PLACEMENT TEST
+
+Add:
+
+* animated question transitions
+* animated progress bar
+* correct/incorrect animations
+* audio where appropriate
+* final celebration
+
+---
+
+# 32. PERFORMANCE
+
+Do NOT sacrifice performance.
+
+Animations should be lightweight.
+
+Audio should not cause:
+
+* lag
+* memory problems
+* repeated audio stacking
+* crashes
+
+---
+
+# 33. ACCESSIBILITY
+
+Respect:
+
+```text
+prefers-reduced-motion
+```
+
+If enabled:
+
+* reduce animations
+* preserve functionality
+
+---
+
+# 34. NO COPYRIGHTED AUDIO
+
+Do not download or use copyrighted music/SFX without permission.
+
+Use:
+
+* original generated/simple SFX
+* Web Audio API
+* properly licensed assets
+* browser speech synthesis
+
+---
+
+# 35. IMPORTANT: CONTENT MUST BE NATURAL
+
+Do not generate nonsense Darija sentences just to fill lessons.
+
+Every sentence should sound like something a Moroccan could reasonably say.
+
+Avoid excessive Modern Standard Arabic.
+
+Use real everyday Moroccan Darija.
+
+Where there are regional or spelling variations, handle them sensibly.
+
+---
+
+# 36. DO NOT MAKE EVERYTHING BEGINNER
+
+The course must become genuinely harder.
+
+Progression:
+
+```text
+Beginner
+↓
+Basic conversations
+↓
+Grammar
+↓
+Intermediate conversations
+↓
+Longer sentences
+↓
+Idioms
+↓
+Natural conversation
+↓
+Advanced comprehension
+```
+
+Advanced users should NOT be able to finish the entire course by memorizing basic vocabulary.
+
+---
+
+# 37. DATA ORGANIZATION
+
+Do NOT put 1,000+ vocabulary items and 100+ lessons inside one giant React component.
+
+Use separate data files.
+
+Example:
+
+```text
+src/
+├── data/
+│   ├── lessons/
+│   │   ├── unit1.ts
+│   │   ├── unit2.ts
+│   │   ├── unit3.ts
+│   │   └── ...
+│   ├── vocabulary/
+│   │   ├── beginner.ts
+│   │   ├── intermediate.ts
+│   │   └── advanced.ts
+│   ├── placementTest.ts
+│   └── achievements.ts
+│
+├── utils/
+│   ├── audio.ts
+│   ├── progress.ts
+│   └── ...
+```
+
+Adapt this to the existing architecture rather than blindly restructuring.
+
+---
+
+# 38. KEEP THE APPLICATION FAST
+
+Do not render every lesson's entire exercise list at once if unnecessary.
+
+Load lesson content efficiently.
+
+Avoid huge unnecessary React state objects.
+
+---
+
+# 39. TEST THE NEW CURRICULUM
+
+Verify:
+
+* every unit appears
+* every lesson opens
+* every lesson has exercises
+* every answer has a valid correct answer
+* every lesson awards XP correctly
+* completed lessons unlock the next lesson
+* review lessons work
+* unit tests work
+* vocabulary search works
+* vocabulary review works
+* audio works
+* SFX work
+* voice works
+* settings work
+* progress persists
+
+---
+
+# 40. FINAL TARGET
+
+When finished, TalkDarija should contain approximately:
+
+**20+ units**
+
+**100–150+ meaningful lessons**
+
+**1,000+ vocabulary entries**
+
+with:
+
+* beginner → intermediate → advanced progression
+* varied exercises
+* review lessons
+* unit tests
+* vocabulary mastery
+* adaptive review
+* Darija pronunciation
+* SFX
+* animations
+* XP
+* hearts
+* diamonds
+* streaks
+* achievements
+* personalized placement
+* profile
+* settings
+* dark mode
+* persistent progress
+
+---
+
+# 41. DO NOT FAKE THE NUMBERS
+
+If you claim there are:
+
+**100 lessons**
+
+there must actually be 100 usable lessons.
+
+If you claim:
+
+**1,000 vocabulary words**
+
+there must actually be approximately 1,000 meaningful vocabulary entries.
+
+Do not generate duplicate entries simply to reach the target.
+
+---
+
+# 42. FINAL QUALITY CHECK
+
+After implementation:
+
+```bash
+npm run dev
+```
+
+Test the entire application from a clean localStorage state.
+
+Then test:
+
+1. First-time onboarding
+2. Level selection
+3. Placement test
+4. Placement result
+5. Course path
+6. Beginner lessons
+7. Intermediate lessons
+8. Advanced lessons
+9. Review lessons
+10. Unit tests
+11. Vocabulary
+12. Vocabulary review
+13. Hearts
+14. XP
+15. Diamonds
+16. Streak
+17. Achievements
+18. Profile
+19. Settings
+20. Dark mode
+21. Voice
+22. SFX
+23. Animations
+24. Mobile layout
+25. Refreshing during a lesson
+26. Refreshing during onboarding
+27. localStorage persistence
+
+Fix all errors you find.
+
+Do not stop after implementing only the UI.
+
+The final result must be a genuinely functional, large-scale **TalkDarija learning experience**, not a mockup.

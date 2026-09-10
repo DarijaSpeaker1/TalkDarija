@@ -1,0 +1,1161 @@
+# TALKDARIJA — FINAL POLISH, PERFORMANCE, AUDIO & PUBLISH-READY PASS
+
+The application is already built. Now I want you to treat this as the **final engineering and polish pass before publishing**.
+
+Do NOT rebuild TalkDarija from scratch.
+
+Do NOT remove existing features.
+
+Do NOT break or replace the existing:
+
+* onboarding
+* level selection
+* placement test
+* personalized level
+* course path
+* lessons
+* exercises
+* XP
+* hearts
+* diamonds
+* streaks
+* achievements
+* vocabulary
+* profile
+* settings
+* dark mode
+* saved progress
+
+Your job is to:
+
+1. Make the entire application significantly less laggy.
+2. Fix every bug/error you can find.
+3. Fix and improve the voice/audio system.
+4. Make vocabulary words playable by clicking them.
+5. Automatically play audio in exercises where listening is required.
+6. Make the replay button significantly larger and easier to use.
+7. Temporarily hide the massive vocabulary list to improve performance.
+8. Keep the architecture ready for the full vocabulary database later.
+9. Finish every incomplete part of the application.
+10. Make the project as close as realistically possible to being ready for public deployment.
+
+---
+
+# 1. CRITICAL PERFORMANCE PROBLEM
+
+The application is becoming laggy because there is a lot of content and UI being loaded/rendered.
+
+Fix this properly.
+
+DO NOT simply delete content.
+
+The goal is:
+
+> Keep the large curriculum, but don't load/render everything unnecessarily.
+
+---
+
+# 2. VOCABULARY SECTION — IMPORTANT
+
+For now, DO NOT display the entire massive vocabulary database in the Vocabulary page.
+
+The current huge list should NOT be rendered all at once.
+
+Instead, redesign the Vocabulary page so it feels intentional rather than unfinished.
+
+For example:
+
+```text
+        📚
+     Vocabulary
+
+   Your learned words
+        ↓
+
+[ Search vocabulary ]
+
+[ Review words ]
+
+────────────────────
+
+        🔒
+
+   THE BIG DICTIONARY
+      IS COMING...
+
+We're hiding the giant word pile
+for now so your phone doesn't
+catch fire 🔥😂
+
+      1,000+ words
+       coming soon!
+
+────────────────────
+
+      [ Review Now ]
+```
+
+The exact wording can be better and more natural.
+
+Make it slightly funny, but still professional.
+
+Possible idea:
+
+> 🔒 1,000+ words are waiting backstage...
+>
+> We're keeping them hidden for now so TalkDarija stays fast. 😎
+>
+> **The dictionary is getting HUGE.**
+
+Another possible idea:
+
+> 🚧 Our vocabulary team is still loading the truck...
+>
+> **1,000+ Darija words coming soon!**
+>
+> We're hiding the full dictionary for now to keep TalkDarija lightning fast ⚡
+
+Choose the best wording/design yourself.
+
+IMPORTANT:
+
+The user should NOT feel like the feature is broken.
+
+It should feel like a deliberate "coming soon / expanding dictionary" feature.
+
+---
+
+# 3. KEEP THE VOCABULARY DATA
+
+Do NOT delete the vocabulary data simply to improve performance.
+
+Keep the data organized and ready for future use.
+
+If necessary:
+
+* lazy-load vocabulary
+* split vocabulary into files
+* load categories only when requested
+* paginate vocabulary
+* virtualize long lists
+
+But for the current public version, the giant vocabulary list should remain hidden.
+
+---
+
+# 4. LEARNED VOCABULARY
+
+If the application already tracks words the user has encountered or learned, KEEP THAT.
+
+The Vocabulary page can still show:
+
+```text
+📚 Your Vocabulary
+
+Words learned: 42
+
+[ Review ]
+
+Your learned words can remain
+available here.
+```
+
+Only hide the unnecessary massive global dictionary.
+
+---
+
+# 5. PERFORMANCE AUDIT
+
+Inspect the entire React application for performance problems.
+
+Look for:
+
+* unnecessary re-renders
+* huge arrays rendered at once
+* expensive calculations on every render
+* unnecessary useEffect calls
+* unnecessary state updates
+* duplicated state
+* event listeners that aren't cleaned up
+* timers that aren't cleaned up
+* intervals that continue after leaving a page
+* audio objects being repeatedly created
+* unnecessary localStorage reads
+* unnecessary localStorage writes
+* huge components
+* unnecessary animations
+* excessive DOM elements
+* memory leaks
+
+Fix them.
+
+---
+
+# 6. REACT PERFORMANCE
+
+Use appropriate techniques such as:
+
+* useMemo
+* useCallback
+* React.memo
+* lazy loading
+* dynamic imports
+
+ONLY where they actually improve performance.
+
+Do not randomly add memoization everywhere.
+
+---
+
+# 7. LESSON PERFORMANCE
+
+Lessons should load quickly.
+
+Do not render every exercise in a lesson simultaneously if only one exercise is visible.
+
+Prefer:
+
+```text
+Exercise 1
+     ↓
+Exercise 2
+     ↓
+Exercise 3
+```
+
+rather than rendering 15–20 complete exercise components at once.
+
+---
+
+# 8. COURSE PATH PERFORMANCE
+
+The course path should remain smooth even with many lessons.
+
+Do not render massive unnecessary hidden components.
+
+Only render what is needed.
+
+---
+
+# 9. AUDIO SYSTEM — FIX IT COMPLETELY
+
+The current vocals/voice system needs to be fixed.
+
+Inspect the existing implementation.
+
+Make sure:
+
+* voice actually works
+* pronunciation is audible
+* clicking the speaker works
+* speech doesn't overlap
+* repeated clicks don't create multiple voices
+* speech stops correctly when needed
+* changing lessons doesn't leave speech playing
+* unsupported browsers don't crash
+* disabled voice settings actually disable voice
+
+---
+
+# 10. VOCABULARY WORD AUDIO
+
+Every vocabulary word that is displayed to the user should have a speaker/replay button.
+
+Example:
+
+```text
+mzyan     🔊
+good
+```
+
+When the user clicks the speaker:
+
+**Pronounce "mzyan" in Darija.**
+
+The user must be able to hear the word.
+
+Do NOT make the user search through settings to hear it.
+
+The speaker button should be obvious.
+
+---
+
+# 11. VOCABULARY SENTENCE AUDIO
+
+If a vocabulary entry contains an example sentence:
+
+```text
+mzyan
+
+good
+
+Had lmakla mzyana.
+
+🔊
+```
+
+The user should be able to hear the example sentence too.
+
+---
+
+# 12. SPEAKER BUTTON SIZE
+
+The current replay/speaker button is too small.
+
+Scale it up significantly.
+
+It should be easy to press on a phone.
+
+Recommended minimum touch target:
+
+**44 × 44 px**
+
+Prefer approximately:
+
+**48–56 px**
+
+for the main lesson replay button.
+
+Make the icon itself clearly visible.
+
+Do not make the button enormous or visually distracting.
+
+---
+
+# 13. REPLAY BUTTON DESIGN
+
+Create a polished replay button.
+
+Example:
+
+```text
+       🔊
+      REPLAY
+```
+
+or simply:
+
+```text
+      🔊
+```
+
+with a clear accessible tooltip/label.
+
+When pressed:
+
+```text
+🔊 → 🔉
+```
+
+or another subtle speaking animation.
+
+While audio is playing:
+
+* animate the icon slightly
+* indicate that the word is being spoken
+
+When finished:
+
+return to the normal state.
+
+---
+
+# 14. AUTOMATIC AUDIO IN LISTENING EXERCISES
+
+This is VERY important.
+
+Some lesson levels/exercises should require listening.
+
+For exercises designed around hearing/pronunciation:
+
+### Automatically play the Darija audio when the exercise appears.
+
+For example:
+
+```text
+┌─────────────────────────┐
+
+       🔊
+
+   "Bghit nakol."
+
+What does this mean?
+
+[ I want to eat ]
+[ I am going home ]
+[ I am tired ]
+[ I am studying ]
+
+└─────────────────────────┘
+```
+
+When the exercise opens:
+
+1. Wait a very short moment if necessary.
+2. Automatically play the Darija phrase.
+3. Show the replay button.
+4. Allow the user to replay it at any time.
+
+---
+
+# 15. DO NOT AUTOPLAY EVERY EXERCISE
+
+Only exercises that are specifically designed around listening should automatically play audio.
+
+For example:
+
+### Listening exercise
+
+AUTO PLAY ✅
+
+### Normal translation exercise
+
+AUTO PLAY ❌
+
+### Vocabulary introduction
+
+Prefer manual speaker button.
+
+### Pronunciation exercise
+
+AUTO PLAY may be appropriate.
+
+This prevents the application from becoming annoying.
+
+---
+
+# 16. FIRST-AUDIO BROWSER RESTRICTION
+
+Browsers can block automatic speech/audio before the user has interacted with the website.
+
+Handle this correctly.
+
+If autoplay is blocked:
+
+* don't crash
+* don't show an error
+* keep the replay button available
+* play automatically after the user has interacted with the app when possible
+
+The replay button must ALWAYS remain functional.
+
+---
+
+# 17. AUDIO QUEUE / OVERLAP
+
+Prevent this problem:
+
+```text
+audio 1
+audio 2
+audio 3
+audio 4
+```
+
+playing simultaneously.
+
+Before speaking a new phrase:
+
+Stop/cancel the previous speech.
+
+There should only be one active Darija voice at a time.
+
+---
+
+# 18. SPEECH SYNTHESIS
+
+Use the best available voice for Darija.
+
+Prefer a Moroccan Arabic/Arabic voice when available.
+
+If an exact Moroccan Darija voice is unavailable:
+
+* gracefully choose the closest appropriate available voice
+* don't break the feature
+* don't pretend that a non-Darija voice is perfect
+
+Keep the system flexible so real recorded Moroccan Darija audio can replace it later.
+
+---
+
+# 19. PRONUNCIATION DATA
+
+Where possible, use the Darija pronunciation text rather than English translations.
+
+For example:
+
+```text
+Darija:
+salam
+
+Romanization:
+salam
+
+English:
+hello
+```
+
+The speaker should say:
+
+**salam**
+
+NOT:
+
+**hello**
+
+---
+
+# 20. SOUND EFFECTS
+
+Keep the SFX system from the previous implementation.
+
+Make sure these work:
+
+* button click
+* correct answer
+* incorrect answer
+* heart lost
+* heart gained
+* XP earned
+* achievement unlocked
+* lesson complete
+* streak
+* lesson unlock
+
+Keep sounds short and subtle.
+
+---
+
+# 21. AUDIO SETTINGS
+
+Make sure Settings contains:
+
+🔊 Sound Effects
+
+🗣️ Darija Voice
+
+🎵 Music, if implemented
+
+Each can be enabled/disabled.
+
+Persist settings.
+
+If voice is OFF:
+
+* automatic voice must not play
+* replay voice must not play
+
+If SFX is OFF:
+
+* SFX must not play
+
+---
+
+# 22. AUDIO CLEANUP
+
+When the user:
+
+* leaves a lesson
+* closes a modal
+* changes screen
+* starts another phrase
+
+make sure old audio/speech is properly stopped or cancelled.
+
+No audio should continue unexpectedly in the background.
+
+---
+
+# 23. ANIMATIONS — KEEP THEM BUT OPTIMIZE THEM
+
+The previous animation system should remain.
+
+However, remove or optimize animations that cause unnecessary performance problems.
+
+Avoid:
+
+* huge particle systems
+* hundreds of DOM nodes
+* continuous animations everywhere
+* expensive blur effects
+* constantly animated backgrounds
+
+Prioritize smoothness.
+
+---
+
+# 24. MICRO-ANIMATIONS
+
+Keep useful animations:
+
+Correct answer:
+
+✅ bounce/check
+
+Incorrect:
+
+❌ small shake
+
+XP:
+
++20 XP ↑
+
+Hearts:
+
+❤️ pop/shrink
+
+Lesson completion:
+
+🎉 celebration
+
+Unlock:
+
+🔓 ✨
+
+These should be short.
+
+---
+
+# 25. MOBILE PERFORMANCE
+
+This is extremely important.
+
+Test the app at mobile-sized screen dimensions.
+
+The application should remain responsive.
+
+Avoid:
+
+* oversized DOM structures
+* unnecessary shadows
+* huge images
+* expensive animations
+* giant lists
+
+---
+
+# 26. IMAGE / ASSET OPTIMIZATION
+
+Inspect all images and assets.
+
+Compress or optimize unnecessarily large assets.
+
+Do not load images that aren't currently needed.
+
+Use appropriate formats where possible.
+
+---
+
+# 27. LOCALSTORAGE PERFORMANCE
+
+Inspect localStorage usage.
+
+Do not repeatedly write huge objects on every render.
+
+Save only when necessary.
+
+Do not stringify massive data structures unnecessarily.
+
+Make sure existing progress remains intact.
+
+---
+
+# 28. BUG HUNT — ENTIRE PROJECT
+
+Now perform a COMPLETE bug audit.
+
+Do not only fix obvious errors.
+
+Inspect every major feature.
+
+Look for:
+
+* TypeScript errors
+* console errors
+* runtime errors
+* broken buttons
+* broken navigation
+* missing states
+* impossible states
+* undefined values
+* invalid indexes
+* incorrect progress
+* incorrect XP
+* incorrect hearts
+* broken streak calculations
+* broken localStorage
+* broken placement test scoring
+* broken lesson unlocking
+* broken review logic
+* audio failures
+* mobile layout problems
+* dark mode problems
+* overflow problems
+* accessibility problems
+
+Fix everything you can find.
+
+---
+
+# 29. EDGE CASES
+
+Test things like:
+
+### User refreshes during lesson
+
+Progress should not become corrupted.
+
+### User leaves lesson halfway
+
+Existing progress behavior should remain correct.
+
+### User loses all hearts
+
+Existing system should work.
+
+### User gains a heart
+
+Correct animation and SFX.
+
+### User completes lesson
+
+XP and progress should update exactly once.
+
+### User clicks an answer multiple times
+
+Do not award XP multiple times.
+
+### User rapidly clicks replay
+
+Do not create overlapping speech.
+
+### User disables audio
+
+No audio should play.
+
+### User reloads
+
+Settings/progress should remain.
+
+### Empty vocabulary
+
+Show a proper empty state.
+
+---
+
+# 30. PLACEMENT TEST
+
+Do not accidentally change the placement test logic.
+
+Make sure:
+
+* questions work
+* answers work
+* scoring works
+* final level works
+* starting point works
+* audio works where appropriate
+
+---
+
+# 31. LEVEL DIFFICULTY
+
+Make sure the three levels are meaningfully different:
+
+### Beginner
+
+Basic words and sentences.
+
+### Intermediate
+
+Longer sentences, grammar, conversation.
+
+### Expert
+
+Natural conversation, advanced vocabulary, expressions, comprehension.
+
+Do not let all three levels feel identical.
+
+---
+
+# 32. CURRICULUM
+
+Keep the expanded curriculum.
+
+Do NOT remove lessons simply because there are many.
+
+Instead use efficient loading.
+
+The target remains approximately:
+
+**20+ units**
+
+**100–150+ meaningful lessons**
+
+**1,000+ vocabulary entries**
+
+But the entire vocabulary database should NOT be rendered on the Vocabulary page right now.
+
+---
+
+# 33. CONTENT QUALITY
+
+Check the lesson content for:
+
+* duplicate lessons
+* duplicate vocabulary
+* nonsense sentences
+* incorrect translations
+* inconsistent transliteration
+* incorrect answer indexes
+* missing explanations
+* missing exercise options
+
+Fix these where found.
+
+---
+
+# 34. PUBLISHING READINESS
+
+Prepare the project for deployment.
+
+Check:
+
+* package.json
+* build configuration
+* Vite configuration
+* TypeScript configuration
+* environment variables
+* production build
+* asset paths
+* routing
+* error handling
+
+Run:
+
+```bash
+npm run build
+```
+
+Fix EVERY build error.
+
+Then run the production preview if appropriate.
+
+---
+
+# 35. CONSOLE MUST BE CLEAN
+
+After testing, the browser console should not contain avoidable:
+
+* errors
+* warnings
+* failed network requests
+* missing audio files
+* missing assets
+
+Fix them.
+
+Do not simply hide errors.
+
+---
+
+# 36. SECURITY / CONFIGURATION
+
+Check that there are no:
+
+* exposed secret keys
+* API keys committed into frontend source
+* passwords
+* private credentials
+* unnecessary debug information
+
+Do not put secrets directly into React code.
+
+---
+
+# 37. RESPONSIVENESS
+
+Test:
+
+### Desktop
+
+### Tablet
+
+### Mobile
+
+Make sure:
+
+* buttons fit
+* text doesn't overflow
+* lesson cards fit
+* speaker buttons remain accessible
+* navigation works
+* modals fit
+* vocabulary layout works
+* onboarding works
+
+---
+
+# 38. ACCESSIBILITY
+
+Make interactive elements accessible.
+
+Speaker buttons should have labels such as:
+
+```text
+aria-label="Play pronunciation"
+```
+
+Buttons must be keyboard accessible.
+
+Respect:
+
+```text
+prefers-reduced-motion
+```
+
+---
+
+# 39. FINAL UI QUALITY
+
+The application should feel cohesive.
+
+Don't add random animations or colors.
+
+Maintain the existing TalkDarija visual identity.
+
+The final impression should be:
+
+**modern + playful + educational + Moroccan + polished**
+
+not:
+
+**overloaded + noisy + laggy**.
+
+---
+
+# 40. FINAL PERFORMANCE GOAL
+
+The user should feel:
+
+> "This website is fast."
+
+even though the application contains a large amount of educational content.
+
+Use lazy loading and efficient rendering rather than deleting content.
+
+---
+
+# 41. FINAL TESTING PROCEDURE
+
+Before telling me you are finished, do this yourself:
+
+### Step 1
+
+Start development server:
+
+```bash
+npm run dev
+```
+
+### Step 2
+
+Open the application.
+
+### Step 3
+
+Open browser DevTools.
+
+### Step 4
+
+Check Console.
+
+### Step 5
+
+Check Network.
+
+### Step 6
+
+Go through the entire onboarding.
+
+### Step 7
+
+Complete placement test.
+
+### Step 8
+
+Start a beginner lesson.
+
+### Step 9
+
+Test correct answer.
+
+### Step 10
+
+Test incorrect answer.
+
+### Step 11
+
+Test replay button.
+
+### Step 12
+
+Test automatic listening exercise.
+
+### Step 13
+
+Test vocabulary pronunciation.
+
+### Step 14
+
+Test hearts.
+
+### Step 15
+
+Test XP.
+
+### Step 16
+
+Complete a lesson.
+
+### Step 17
+
+Test streak.
+
+### Step 18
+
+Test achievements.
+
+### Step 19
+
+Test vocabulary page.
+
+### Step 20
+
+Verify the large dictionary is intentionally hidden.
+
+### Step 21
+
+Test profile.
+
+### Step 22
+
+Test settings.
+
+### Step 23
+
+Disable voice.
+
+### Step 24
+
+Verify voice cannot play.
+
+### Step 25
+
+Disable SFX.
+
+### Step 26
+
+Verify SFX cannot play.
+
+### Step 27
+
+Refresh.
+
+### Step 28
+
+Verify progress and settings.
+
+### Step 29
+
+Test mobile layout.
+
+### Step 30
+
+Run:
+
+```bash
+npm run build
+```
+
+Fix every error.
+
+---
+
+# 42. DO NOT STOP AT "IT WORKS"
+
+I don't want a response saying:
+
+> "Done, everything works."
+
+without actually checking.
+
+Inspect the code.
+
+Run the application.
+
+Test the features.
+
+Fix the problems.
+
+Then test again.
+
+If you discover another issue while fixing something else, fix that too.
+
+---
+
+# 43. FINAL RESULT
+
+I want TalkDarija to be in the strongest possible state for its first public release:
+
+🇲🇦 Moroccan Darija learning platform
+
+📚 Large curriculum
+
+🧠 Placement system
+
+🎯 Personalized learning
+
+🗣️ Darija pronunciation
+
+🔊 Listening exercises
+
+🎮 Gamification
+
+❤️ Hearts
+
+⭐ XP
+
+💎 Diamonds
+
+🔥 Streaks
+
+🏆 Achievements
+
+📖 Vocabulary
+
+🎬 Animations
+
+🔊 SFX
+
+📱 Mobile friendly
+
+🌙 Dark mode
+
+⚡ Fast performance
+
+💾 Persistent progress
+
+🐛 No known critical bugs
+
+The huge vocabulary database should remain available in the project but **not be rendered as one giant list**, with a polished/funny "1,000+ words coming" barrier in the Vocabulary section.
+
+The final priority order is:
+
+**1. Correctness**
+**2. Performance**
+**3. Audio/voice functionality**
+**4. User experience**
+**5. Visual polish**
+
+Do not sacrifice correctness or performance for visual effects.

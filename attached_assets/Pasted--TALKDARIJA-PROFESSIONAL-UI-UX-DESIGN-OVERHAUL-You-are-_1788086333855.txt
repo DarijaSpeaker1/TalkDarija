@@ -1,0 +1,938 @@
+# TALKDARIJA — PROFESSIONAL UI/UX DESIGN OVERHAUL
+
+You are now the lead UI/UX designer for **TalkDarija**, a Moroccan Darija language-learning platform.
+
+The application already has its core functionality. Your task is to **professionally redesign and polish the visual experience** without breaking any existing functionality.
+
+## CRITICAL RULE
+
+Do NOT rebuild the application from scratch.
+
+Do NOT remove existing features.
+
+Do NOT change the underlying learning logic unless absolutely necessary.
+
+Preserve:
+
+* onboarding
+* placement test
+* lessons
+* course progression
+* XP
+* hearts
+* diamonds
+* streaks
+* achievements
+* vocabulary
+* profile
+* settings
+* audio
+* voice pronunciation
+* listening exercises
+* saved progress
+* dark mode
+
+This is a **UI/UX transformation**, not a functionality rewrite.
+
+---
+
+# 1. DESIGN GOAL
+
+TalkDarija should feel like a real, professional language-learning product.
+
+The design should communicate:
+
+🇲🇦 Moroccan identity
+🎓 Education
+🎮 Gamification
+✨ Modern technology
+🗣️ Conversation
+⚡ Speed and simplicity
+
+The visual style should be:
+
+**modern + playful + clean + premium + Moroccan**
+
+Avoid making it look like a generic AI-generated website.
+
+Avoid excessive gradients, excessive glassmorphism, excessive shadows, and unnecessary decorative elements.
+
+---
+
+# 2. BRAND IDENTITY
+
+The brand is:
+
+# TalkDarija
+
+The interface should visually reinforce the name.
+
+Use subtle Moroccan-inspired details without turning the application into a stereotypical Moroccan tourist website.
+
+Good inspiration:
+
+* subtle geometric patterns
+* restrained Moroccan-inspired shapes
+* clean modern typography
+* small cultural details
+* elegant use of Moroccan visual language
+
+Do NOT cover the interface with Moroccan patterns.
+
+The Moroccan identity should be subtle.
+
+---
+
+# 3. COLOR SYSTEM
+
+Create a consistent design system.
+
+Use a strong primary brand color based on the existing TalkDarija identity.
+
+Use:
+
+* primary
+* secondary
+* success
+* warning
+* error
+* background
+* surface
+* text
+* muted text
+* border
+
+Define them as CSS variables/design tokens rather than repeatedly hardcoding colors.
+
+Example concept:
+
+```text id="m6l6xj"
+--color-primary
+--color-secondary
+--color-success
+--color-warning
+--color-error
+--color-background
+--color-surface
+--color-text
+--color-muted
+--color-border
+```
+
+Maintain excellent contrast.
+
+---
+
+# 4. LIGHT MODE
+
+Light mode should feel:
+
+* bright
+* clean
+* friendly
+* spacious
+
+Avoid pure white everywhere.
+
+Use subtle surface variations to create hierarchy.
+
+Example:
+
+```text id="b6l1k7"
+Background
+   ↓
+Surface
+   ↓
+Card
+   ↓
+Interactive element
+```
+
+---
+
+# 5. DARK MODE
+
+Dark mode should NOT simply invert the light theme.
+
+Create a properly designed dark theme.
+
+Use:
+
+* dark backgrounds
+* slightly lighter cards
+* readable text
+* subtle borders
+* carefully controlled brand colors
+
+Avoid pure black backgrounds unless necessary.
+
+---
+
+# 6. TYPOGRAPHY
+
+Choose a modern, highly readable font system.
+
+Typography must work for:
+
+* English
+* French
+* Arabic
+* Darija Latin transliteration
+* numbers
+
+Create a hierarchy:
+
+### Display
+
+Large headings.
+
+### Heading
+
+Section titles.
+
+### Body
+
+Normal content.
+
+### Caption
+
+Small supporting information.
+
+Do not use too many fonts.
+
+Prefer one primary font family with appropriate weights.
+
+---
+
+# 7. SPACING
+
+Create consistent spacing throughout the application.
+
+Avoid:
+
+* cramped cards
+* random margins
+* inconsistent gaps
+* elements touching screen edges
+
+Use a predictable spacing system.
+
+Example:
+
+```text id="0ip4z0"
+4px
+8px
+12px
+16px
+24px
+32px
+48px
+64px
+```
+
+---
+
+# 8. CARDS
+
+Redesign cards to feel modern.
+
+Cards should have:
+
+* consistent radius
+* subtle border
+* subtle shadow where appropriate
+* clear hierarchy
+* comfortable padding
+
+Do not give every card a giant shadow.
+
+---
+
+# 9. BUTTONS
+
+Create a consistent button system.
+
+### Primary
+
+Used for the main action.
+
+### Secondary
+
+Used for alternative actions.
+
+### Ghost
+
+Used for low-priority actions.
+
+### Destructive
+
+Used for dangerous actions.
+
+Buttons should have:
+
+* hover state
+* active state
+* disabled state
+* focus state
+
+Add subtle interaction animations.
+
+---
+
+# 10. COURSE HOME
+
+The home screen is one of the most important pages.
+
+It should immediately communicate:
+
+```text id="0ecm4f"
+Welcome back!
+
+🔥 7 day streak
+
+Today's goal
+████████░░ 80%
+
+Continue learning
+┌───────────────────────────┐
+│ Unit 4                    │
+│ Daily Life                │
+│ Lesson 3                  │
+│                           │
+│        Continue →         │
+└───────────────────────────┘
+
+Your progress
+...
+```
+
+The user should immediately know:
+
+* what to do next
+* their progress
+* their streak
+* their XP
+* their current lesson
+
+Do not overload the home screen.
+
+---
+
+# 11. COURSE PATH
+
+Make the course path visually satisfying.
+
+Lessons should have clear states:
+
+### Locked
+
+🔒
+
+### Available
+
+▶
+
+### Current
+
+✨
+
+### Completed
+
+✓
+
+### Perfect
+
+🏆
+
+The current lesson should stand out.
+
+Do NOT animate every lesson continuously.
+
+---
+
+# 12. LESSON SCREEN
+
+The lesson interface should be extremely focused.
+
+The user should not be distracted.
+
+Suggested structure:
+
+```text id="9z98qb"
+←                         ❤️❤️❤️❤️❤️
+
+             Lesson 4
+
+██████████████░░░░░
+
+        Question
+
+       Bghit nakol.
+
+          🔊
+
+     What does this mean?
+
+ ┌────────────────────────┐
+ │ I want to eat          │
+ └────────────────────────┘
+
+ ┌────────────────────────┐
+ │ I am tired              │
+ └────────────────────────┘
+
+ ┌────────────────────────┐
+ │ I am going home         │
+ └────────────────────────┘
+```
+
+Make the question the visual focus.
+
+---
+
+# 13. LISTENING EXERCISES
+
+Listening exercises should have a distinctive but consistent design.
+
+Example:
+
+```text id="b2e2ij"
+        🔊
+
+     Listen carefully
+
+   "Bghit nakol."
+
+     [ REPLAY ]
+```
+
+The replay button must be large and easy to tap.
+
+---
+
+# 14. VOCABULARY
+
+The Vocabulary page should look intentional.
+
+The huge global vocabulary database should remain hidden for performance.
+
+Create a polished section like:
+
+```text id="4gqifb"
+📚 Vocabulary
+
+Words you've learned
+
+42 words
+
+[ Review ]
+
+────────────────────
+
+🔒 THE BIG DICTIONARY
+
+1,000+ Darija words
+are coming...
+
+We're keeping the dictionary
+behind the curtain for now
+so TalkDarija stays FAST ⚡
+
+────────────────────
+```
+
+Make this look like a real feature announcement, not an error.
+
+---
+
+# 15. VOCABULARY WORD CARD
+
+Whenever a learned vocabulary word is displayed:
+
+```text id="e3q4a1"
+mzyan
+
+good
+
+Had lmakla mzyana.
+
+                         🔊
+```
+
+The speaker button should be obvious.
+
+---
+
+# 16. PROFILE
+
+Create a polished profile page.
+
+Show:
+
+```text id="x4z6aw"
+Profile
+
+        👤
+
+      Student
+
+🔥 7 day streak
+
+⭐ 1,240 XP
+
+💎 85 diamonds
+
+Lessons completed
+42
+
+Words learned
+317
+
+Achievements
+🏆 🏆 🏆
+```
+
+Make statistics visually easy to scan.
+
+---
+
+# 17. ACHIEVEMENTS
+
+Create attractive achievement cards.
+
+Locked:
+
+🔒
+
+Completed:
+
+🏆
+
+Use subtle gradients/glows only when appropriate.
+
+---
+
+# 18. STREAK
+
+Make streak visually important without dominating the interface.
+
+Example:
+
+```text id="k6r3jc"
+🔥
+
+7
+
+DAY STREAK
+
+Keep it going!
+```
+
+---
+
+# 19. XP / DIAMONDS / HEARTS
+
+These should have consistent visual treatment throughout the app.
+
+Never randomly change their appearance from page to page.
+
+For example:
+
+⭐ XP
+💎 Diamonds
+❤️ Hearts
+🔥 Streak
+
+Use consistent icons and spacing.
+
+---
+
+# 20. ONBOARDING
+
+Make the first experience exceptional.
+
+The user should feel:
+
+> "This is a real product."
+
+Suggested flow:
+
+```text id="h5w9f0"
+🇲🇦
+
+Marhba bik!
+
+Learn Moroccan Darija
+one conversation at a time.
+
+[ Get Started ]
+```
+
+Then:
+
+```text id="k2k8fk"
+What's your Darija level?
+
+🟢 Beginner
+I know almost nothing.
+
+🟡 Intermediate
+I understand some Darija.
+
+🔴 Expert
+I can already communicate.
+```
+
+Then placement test.
+
+Keep onboarding clean and focused.
+
+---
+
+# 21. PLACEMENT RESULT
+
+Make the result feel rewarding.
+
+Example:
+
+```text id="2p1g1v"
+🎉
+
+YOUR LEVEL
+
+INTERMEDIATE
+
+You're ready for
+Unit 8.
+
+Vocabulary
+████████░░
+
+Grammar
+███████░░░
+
+Comprehension
+████████░░
+
+[ Start Learning ]
+```
+
+---
+
+# 22. NAVIGATION
+
+Navigation should be extremely clear.
+
+Desktop:
+
+```text id="a6w2po"
+🏠 Home
+📚 Vocabulary
+👤 Profile
+```
+
+Mobile:
+
+Use a bottom navigation bar if appropriate.
+
+Make the active tab obvious.
+
+---
+
+# 23. RESPONSIVE DESIGN
+
+The design must work on:
+
+* desktop
+* laptop
+* tablet
+* mobile
+
+Do not simply shrink desktop UI.
+
+Actually redesign layouts where necessary.
+
+---
+
+# 24. MOBILE PRIORITY
+
+TalkDarija will likely be used heavily on phones.
+
+Prioritize:
+
+* large touch targets
+* readable text
+* comfortable spacing
+* easy navigation
+* large speaker/replay button
+* no horizontal scrolling
+
+Minimum touch target:
+
+**44 × 44 px**
+
+Prefer 48px+ for important controls.
+
+---
+
+# 25. ANIMATIONS
+
+Keep animations subtle and premium.
+
+Use:
+
+* page transitions
+* card hover
+* button press
+* correct-answer feedback
+* incorrect-answer shake
+* XP floating animation
+* heart animation
+* achievement animation
+* lesson completion celebration
+* unlock animation
+
+Avoid constant motion.
+
+---
+
+# 26. LOADING STATES
+
+Never show a blank screen while something loads.
+
+Create:
+
+* skeletons
+* loading indicators
+* empty states
+
+where appropriate.
+
+---
+
+# 27. ERROR STATES
+
+Create friendly error states.
+
+Instead of:
+
+```text id="z8ob5b"
+ERROR 500
+```
+
+use something like:
+
+```text id="0k1i2h"
+😅
+
+Something went wrong.
+
+Don't worry — your progress is safe.
+
+[ Try Again ]
+```
+
+Do not expose technical errors to normal users.
+
+---
+
+# 28. EMPTY STATES
+
+Every section that can be empty should have a designed empty state.
+
+Example:
+
+```text id="spzj6s"
+📚
+
+No words to review yet.
+
+Complete a lesson
+to start building your vocabulary.
+```
+
+---
+
+# 29. ACCESSIBILITY
+
+Make the design accessible.
+
+Check:
+
+* color contrast
+* keyboard navigation
+* focus states
+* button labels
+* screen reader labels
+* readable font sizes
+
+Speaker buttons must have accessible labels.
+
+---
+
+# 30. PERFORMANCE
+
+IMPORTANT:
+
+Do NOT sacrifice performance for design.
+
+Avoid:
+
+* giant background images
+* excessive blur
+* excessive box shadows
+* huge animations
+* unnecessary DOM elements
+* animated gradients everywhere
+* giant vocabulary rendering
+
+TalkDarija must remain fast.
+
+---
+
+# 31. CONSISTENCY AUDIT
+
+Inspect every page.
+
+Make sure the following are consistent:
+
+* border radius
+* typography
+* spacing
+* buttons
+* icons
+* colors
+* cards
+* shadows
+* animations
+* headings
+* navigation
+
+No page should look like it came from a different application.
+
+---
+
+# 32. REMOVE "AI-GENERATED" LOOK
+
+This is important.
+
+Avoid:
+
+* random gradient blobs
+* excessive glassmorphism
+* meaningless floating shapes
+* too many emojis
+* excessive rounded rectangles
+* generic SaaS dashboard appearance
+* inconsistent icons
+* unnecessary decorative elements
+
+Every design element must have a purpose.
+
+---
+
+# 33. BRAND PERSONALITY
+
+TalkDarija should feel friendly but not childish.
+
+Think:
+
+**Duolingo's engagement + modern educational software + Moroccan personality**
+
+but with a completely original TalkDarija visual identity.
+
+Do NOT copy Duolingo's branding, mascot, illustrations, colors, or exact UI.
+
+---
+
+# 34. FINAL DESIGN AUDIT
+
+Inspect the entire project and improve every visually weak area.
+
+Look for:
+
+* inconsistent margins
+* broken layouts
+* ugly empty spaces
+* text overflow
+* buttons that look unfinished
+* inconsistent icons
+* poor mobile layouts
+* weak hierarchy
+* unnecessary elements
+* poor contrast
+* awkward animations
+* broken dark mode
+
+Fix them.
+
+---
+
+# 35. FINAL QUALITY STANDARD
+
+When finished, ask yourself:
+
+> If I opened TalkDarija for the first time, would I believe this is a real language-learning product?
+
+The answer should be YES.
+
+The application should feel:
+
+🇲🇦 Moroccan
+🎓 Educational
+🎮 Gamified
+✨ Modern
+⚡ Fast
+🗣️ Interactive
+📱 Mobile-first
+💎 Professional
+
+Do not stop at making individual components look good.
+
+Make the **ENTIRE APPLICATION feel like one coherent product.**
+
+---
+
+# 36. FINAL TEST
+
+After the redesign:
+
+Run:
+
+```bash
+npm run build
+```
+
+Fix every error.
+
+Then run:
+
+```bash
+npm run dev
+```
+
+Test:
+
+* onboarding
+* placement test
+* home
+* course path
+* lessons
+* listening exercises
+* replay button
+* vocabulary
+* profile
+* achievements
+* settings
+* dark mode
+* mobile layout
+* desktop layout
+* animations
+* audio
+* saved progress
+
+Check the browser console.
+
+Fix every avoidable error and warning.
+
+**Do not tell me the project is finished until you have actually inspected and tested the entire application.**

@@ -1,0 +1,13 @@
+{
+  "name": "TalkDarija - Learn Moroccan Darija",
+  "short_name": "TalkDarija",
+  "description": "Friendly, practical Moroccan Darija practice for English speakers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f5ec",
+  "theme_color": "#185c63",
+  "lang": "en",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
