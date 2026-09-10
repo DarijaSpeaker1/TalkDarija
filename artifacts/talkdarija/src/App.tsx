@@ -14,6 +14,8 @@ import {
   Heart,
   Home as HomeIcon,
   LockKeyhole,
+  Mail,
+  MessageSquare,
   Moon,
   Megaphone,
   RotateCcw,
@@ -29,6 +31,14 @@ import {
   VolumeX,
   X,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Link, Route, Switch, useLocation, useParams } from "wouter";
 import {
@@ -356,10 +366,46 @@ function Shell({ children }: { children: ReactNode }) {
       <main className="app-main page-in min-h-[100dvh]">
         <div className="mx-auto max-w-[1160px] px-5 py-6 md:px-10 md:py-9">
           {children}
+          <FeedbackPrompt />
         </div>
       </main>
       <BottomNav current={current} />
     </div>
+  );
+}
+
+function FeedbackPrompt() {
+  const { state, patch } = useLocalApp();
+  const [visible, setVisible] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const eligible = state.completedLessons.length >= 2 && !state.feedbackPromptShown;
+
+  useEffect(() => {
+    if (!eligible) return;
+    setVisible(true);
+    patch({ feedbackPromptShown: true });
+  }, [eligible, patch]);
+
+  if (!visible) return <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />;
+
+  return (
+    <>
+      <aside className="mt-8 flex flex-col gap-4 rounded-2xl border border-primary/20 bg-secondary/50 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="font-bold text-primary">Enjoying TalkDarija? 💬</p>
+          <p className="mt-1 text-sm text-muted-foreground">You've completed 2 lessons! We'd love to hear your feedback and suggestions.</p>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button onClick={() => { setVisible(false); setFeedbackOpen(true); }}>
+            <Mail size={16} /> Send Feedback
+          </Button>
+          <button type="button" onClick={() => setVisible(false)} aria-label="Dismiss feedback invitation" className="focus-ring rounded-lg p-2 text-muted-foreground hover:bg-background hover:text-foreground">
+            <X size={17} />
+          </button>
+        </div>
+      </aside>
+      <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
+    </>
   );
 }
 function Header({
@@ -1651,6 +1697,93 @@ function ProfilePage() {
   );
 }
 
+function FeedbackDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const [feedback, setFeedback] = useState({ name: "", email: "", message: "" });
+  const [feedbackState, setFeedbackState] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [feedbackError, setFeedbackError] = useState("");
+  useEffect(() => {
+    if (!open) {
+      setFeedback({ name: "", email: "", message: "" });
+      setFeedbackState("idle");
+      setFeedbackError("");
+    }
+  }, [open]);
+  const submitFeedback = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const message = feedback.message.trim();
+    const email = feedback.email.trim();
+    if (!message) {
+      setFeedbackError("Please share a message before sending.");
+      setFeedbackState("error");
+      return;
+    }
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+      setFeedbackError("Please enter a valid email address or leave it blank.");
+      setFeedbackState("error");
+      return;
+    }
+    setFeedbackState("sending");
+    setFeedbackError("");
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "/api"}/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...feedback, name: feedback.name.trim(), email, message }),
+      });
+      if (!response.ok) {
+        const result = await response.json().catch(() => null) as { error?: string } | null;
+        throw new Error(result?.error || "We could not send your feedback right now. Please try again.");
+      }
+      setFeedbackState("success");
+      setFeedback({ name: "", email: "", message: "" });
+    } catch (error) {
+      setFeedbackError(error instanceof Error ? error.message : "We could not send your feedback right now. Please try again.");
+      setFeedbackState("error");
+    }
+  };
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="display text-xl">Send Feedback</DialogTitle>
+          <DialogDescription>Tell us what would make TalkDarija better.</DialogDescription>
+        </DialogHeader>
+        {feedbackState === "success" ? (
+          <div className="rounded-xl border border-primary/30 bg-primary/10 p-4 text-sm font-semibold text-primary" role="status">
+            Thanks for helping us improve TalkDarija. Your feedback was sent.
+          </div>
+        ) : (
+          <form onSubmit={submitFeedback} className="space-y-4">
+            <div>
+              <label className="text-sm font-bold" htmlFor="feedback-name">Name <span className="font-normal text-muted-foreground">(optional)</span></label>
+              <input id="feedback-name" value={feedback.name} onChange={(event) => setFeedback({ ...feedback, name: event.target.value })} maxLength={100} className="focus-ring mt-2 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" />
+            </div>
+            <div>
+              <label className="text-sm font-bold" htmlFor="feedback-email">Email <span className="font-normal text-muted-foreground">(optional)</span></label>
+              <input id="feedback-email" type="email" value={feedback.email} onChange={(event) => setFeedback({ ...feedback, email: event.target.value })} maxLength={254} className="focus-ring mt-2 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" />
+            </div>
+            <div>
+              <label className="text-sm font-bold" htmlFor="feedback-message">Feedback message <span className="text-destructive">*</span></label>
+              <textarea id="feedback-message" required value={feedback.message} onChange={(event) => { setFeedback({ ...feedback, message: event.target.value }); setFeedbackError(""); }} maxLength={5000} rows={5} className="focus-ring mt-2 w-full resize-y rounded-xl border border-border bg-background px-3 py-3 text-sm" />
+            </div>
+            {feedbackError && <p className="text-sm font-semibold text-destructive" role="alert">{feedbackError}</p>}
+            <DialogFooter>
+              <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} disabled={feedbackState === "sending"}>Cancel</Button>
+              <Button type="submit" disabled={feedbackState === "sending"}>{feedbackState === "sending" ? "Sending..." : "Send Feedback"}</Button>
+            </DialogFooter>
+          </form>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function SettingsPage() {
   const { state, patch, reset } = useLocalApp();
   const [, setLocation] = useLocation();
@@ -1662,6 +1795,7 @@ function SettingsPage() {
   };
   const toggle = (key: "sound" | "animations") =>
     update({ [key]: !state.settings[key] });
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   return (
     <Shell>
       <Header eyebrow="Make it yours" title="Settings" />
@@ -1778,6 +1912,38 @@ function SettingsPage() {
             ))}
           </div>
         </section>
+        <section className="rounded-2xl border border-border bg-card p-5">
+          <div className="flex items-start gap-3">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
+              <MessageSquare size={17} />
+            </span>
+            <div>
+              <h2 className="display text-lg font-bold">About TalkDarija</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                TalkDarija is a student-built project that helps people discover and learn Moroccan Darija in a simple and accessible way.
+              </p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                We are continuously improving it based on user feedback.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section className="rounded-2xl border border-border bg-card p-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
+                <Mail size={17} />
+              </span>
+              <div>
+                <h2 className="display text-lg font-bold">Feedback</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Have an idea, found a mistake, or have a suggestion? We'd love to hear from you.</p>
+              </div>
+            </div>
+            <Button onClick={() => setFeedbackOpen(true)}>
+              <Mail size={16} /> Send Feedback
+            </Button>
+          </div>
+        </section>
         <section className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5">
           <h2 className="display text-lg font-bold text-destructive">
             Start fresh
@@ -1807,6 +1973,7 @@ function SettingsPage() {
           </div>
         </section>
       </div>
+      <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
     </Shell>
   );
 }

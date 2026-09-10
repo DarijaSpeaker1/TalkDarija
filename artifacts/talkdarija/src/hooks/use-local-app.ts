@@ -41,6 +41,7 @@ export type AppState = {
   currentQuestion: number;
   savedAnswers: Record<string, string>;
   achievements: string[];
+  feedbackPromptShown: boolean;
 };
 const localDay = (date = new Date()) => {
   const year = date.getFullYear();
@@ -74,6 +75,7 @@ const defaults: AppState = {
   currentQuestion: 0,
   savedAnswers: {},
   achievements: [],
+  feedbackPromptShown: false,
 };
 const load = (): AppState => {
   try {
