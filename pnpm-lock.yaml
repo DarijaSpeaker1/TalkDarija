@@ -410,6 +410,10 @@ importers:
         version: 3.25.76
 
   artifacts/talkdarija:
+    dependencies:
+      resend:
+        specifier: ^6.26.0
+        version: 6.26.0
     devDependencies:
       '@hookform/resolvers':
         specifier: ^3.10.0
