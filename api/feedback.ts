@@ -69,18 +69,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (error) {
-      console.error("Resend feedback email failed", {
-        name: error.name,
-        message: error.message,
-        statusCode: error.statusCode,
-      });
+      
       res.status(502).json({ error: "We could not send your feedback right now. Please try again." });
       return;
     }
 
     res.status(204).end();
   } catch (error) {
-    console.error("Unexpected feedback email error", error instanceof Error ? error.message : error);
     res.status(502).json({ error: "We could not send your feedback right now. Please try again." });
   }
 }
