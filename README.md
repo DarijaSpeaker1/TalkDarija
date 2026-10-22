@@ -24,7 +24,6 @@ We want to help more people communicate with Moroccans and discover the beauty o
 * HTML
 * CSS
 * JavaScript
-* [Add your framework here if applicable]
 
 ## 👥 Team
 
