@@ -175,6 +175,20 @@ function normalizeAnswer(value: string) {
     .toLowerCase();
 }
 
+type AnswerOption = { id: string; value: string };
+
+function shuffleOptions(values: string[], questionId: string): AnswerOption[] {
+  const shuffled = values.map((value, index) => ({
+    id: `${questionId}-option-${index}`,
+    value,
+  }));
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 const exerciseLabel: Record<Exercise["kind"], string> = {
   translation: "Meaning",
   select: "Meaning",
@@ -466,6 +480,10 @@ function Onboarding() {
     else if (state.profile) setLocation("/home");
   }, [retake, setLocation, state.profile]);
   const q = placementQuestions[Object.keys(answers).length];
+  const shuffledPlacementOptions = useMemo(
+    () => q ? shuffleOptions(q.options, q.id) : [],
+    [q?.id],
+  );
   const finish = (next: Record<string, string>) => {
     setScore(
       placementQuestions.reduce(
@@ -611,22 +629,22 @@ function Onboarding() {
               {q.prompt}
             </h1>
             <div className="mt-8 grid gap-3">
-              {q.options.map((option, i) => (
+              {shuffledPlacementOptions.map((option, i) => (
                 <button
-                  key={option}
+                  key={option.id}
                   onClick={() => {
                     placementClick();
-                    const next = { ...answers, [q.id]: option };
+                    const next = { ...answers, [q.id]: option.value };
                     setAnswers(next);
                     if (qIndex === placementQuestions.length - 1) finish(next);
                   }}
                   data-testid={`button-placement-option-${i}`}
                   className={cx(
                     "placement-answer focus-ring rounded-2xl border border-border bg-card p-4 text-left text-sm font-semibold hover:border-primary hover:bg-secondary",
-                    answers[q.id] === option && "is-selected",
+                    answers[q.id] === option.value && "is-selected",
                   )}
                 >
-                  {option}
+                  {option.value}
                 </button>
               ))}
             </div>
@@ -1113,12 +1131,21 @@ function LessonPage() {
     );
   const isBuild = Boolean(exercise.words) || exercise.kind === "order";
   const options = exercise.options ?? exercise.words ?? [];
-  const isCorrect = (value: string) =>
-    normalizeAnswer(value) === normalizeAnswer(exercise.answer);
-  const choose = (value: string) => {
+  const shuffledOptions = useMemo(
+    () => shuffleOptions(options, exercise.id),
+    [exercise.id],
+  );
+  const correctOptionId = shuffledOptions.find(
+    (option) => normalizeAnswer(option.value) === normalizeAnswer(exercise.answer),
+  )?.id;
+  const choose = (option: AnswerOption) => {
     if (checked) return;
-    const next = isBuild ? (selected ? `${selected} ${value}` : value) : value;
-    const correct = isCorrect(next);
+    const next = isBuild
+      ? (selected ? `${selected} ${option.value}` : option.value)
+      : option.value;
+    const correct = isBuild
+      ? normalizeAnswer(next) === normalizeAnswer(exercise.answer)
+      : option.id === correctOptionId;
     setSelected(next);
     if (
       !isBuild ||
@@ -1189,6 +1216,9 @@ function LessonPage() {
               <Heart size={17} fill="currentColor" className="inline" />{" "}
               {state.hearts}
             </span>
+            <span className="flex items-center gap-1 text-accent" aria-label={`${state.streak} day streak`}>
+              <Flame size={17} /> {state.streak}
+            </span>
             <span className="text-xs text-muted-foreground">
               {index + 1}/{lesson.exercises.length}
             </span>
@@ -1220,20 +1250,22 @@ function LessonPage() {
             </div>
           )}
           <div className="mt-5 space-y-3">
-            {options.map((option, i) => {
+            {shuffledOptions.map((option, i) => {
               const picked = isBuild
-                ? selected.split(" ").includes(option)
-                : selected === option;
+                ? selected.split(" ").includes(option.value)
+                : selected === option.value;
               return (
                 <button
-                  key={`${option}-${i}`}
+                  key={option.id}
                   onClick={() => choose(option)}
                   disabled={checked}
                   className={cx(
                     "focus-ring flex w-full items-center gap-4 rounded-2xl border bg-card p-4 text-left text-sm font-semibold",
                     picked && !checked && "border-primary bg-primary/10",
                     checked &&
-                      normalizeAnswer(option) === normalizeAnswer(exercise.answer) &&
+                      (isBuild
+                        ? normalizeAnswer(option.value) === normalizeAnswer(exercise.answer)
+                        : option.id === correctOptionId) &&
                       "border-primary bg-primary/10",
                     checked &&
                       picked &&
@@ -1246,7 +1278,7 @@ function LessonPage() {
                   <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-muted text-xs">
                     {String.fromCharCode(65 + i)}
                   </span>
-                  <span className="flex-1">{option}</span>
+                  <span className="flex-1">{option.value}</span>
                   {picked && <Check size={18} className="text-primary" />}
                 </button>
               );
@@ -1529,6 +1561,11 @@ function ReviewPage() {
   const [selected, setSelected] = useState("");
   const [checked, setChecked] = useState(false);
   const exercise = lessons.flatMap((lesson) => lesson.exercises).find((item) => item.id === currentId);
+  const options = exercise?.options ?? exercise?.words ?? [];
+  const shuffledOptions = useMemo(
+    () => exercise ? shuffleOptions(options, exercise.id) : [],
+    [exercise?.id],
+  );
   if (!exercise) {
     return (
       <Shell>
@@ -1542,7 +1579,6 @@ function ReviewPage() {
       </Shell>
     );
   }
-  const options = exercise.options ?? exercise.words ?? [];
   const isBuild = Boolean(exercise.words) || exercise.kind === "order";
   const correct = normalizeAnswer(selected) === normalizeAnswer(exercise.answer);
   const choose = (value: string) => {
@@ -1574,7 +1610,7 @@ function ReviewPage() {
         <h1 className="display mt-4 text-3xl font-bold"><LessonPromptText text={exercise.prompt} /></h1>
         {isBuild && <div className="mt-5 rounded-xl border border-dashed border-primary/40 bg-secondary/40 p-3 text-sm font-bold text-primary">{selected || "Choose words below"}</div>}
         <div className="mt-6 space-y-3">
-          {options.map((option, index) => <button key={`${option}-${index}`} type="button" disabled={checked} onClick={() => choose(option)} className={cx("focus-ring flex w-full items-center gap-4 rounded-2xl border bg-background p-4 text-left text-sm font-semibold", selected === option && !checked && "border-primary bg-primary/10", checked && normalizeAnswer(option) === normalizeAnswer(exercise.answer) && "border-primary bg-primary/10", !checked && "border-border hover:border-primary hover:bg-secondary")}><span className="grid h-8 w-8 place-items-center rounded-lg bg-muted text-xs">{String.fromCharCode(65 + index)}</span><span>{option}</span></button>)}
+          {shuffledOptions.map((option, index) => <button key={option.id} type="button" disabled={checked} onClick={() => choose(option.value)} className={cx("focus-ring flex w-full items-center gap-4 rounded-2xl border bg-background p-4 text-left text-sm font-semibold", selected === option.value && !checked && "border-primary bg-primary/10", checked && normalizeAnswer(option.value) === normalizeAnswer(exercise.answer) && "border-primary bg-primary/10", !checked && "border-border hover:border-primary hover:bg-secondary")}><span className="grid h-8 w-8 place-items-center rounded-lg bg-muted text-xs">{String.fromCharCode(65 + index)}</span><span>{option.value}</span></button>)}
         </div>
         {checked && <div className={cx("mt-6 rounded-2xl border p-5", correct ? "border-primary/30 bg-primary/10" : "border-destructive/30 bg-destructive/10")}><p className="font-bold">{correct ? "Mzyan! That one is back." : "Not quite yet. Try it once more."}</p><p className="mt-2 text-sm text-muted-foreground">Answer: <strong className="text-foreground"><LessonPromptText text={exercise.answer} /></strong></p><Button className="mt-4" onClick={nextReview}>{correct ? "Next review" : "Try again"} <ChevronRight size={16} /></Button></div>}
       </section>
@@ -1588,7 +1624,10 @@ function ScenarioPage() {
   const scenario = wildScenarios.find((item) => item.id === params.scenarioId) ?? wildScenarios[0];
   const [selected, setSelected] = useState("");
   const [checked, setChecked] = useState(false);
-  const options = [scenario.response, "bslama", "chno smitek?", "ma fhemtch"].sort();
+  const options = useMemo(
+    () => shuffleOptions([scenario.response, "bslama", "chno smitek?", "ma fhemtch"], scenario.id),
+    [scenario.id],
+  );
   const correct = normalizeAnswer(selected) === normalizeAnswer(scenario.response);
   return (
     <Shell>
@@ -1598,7 +1637,7 @@ function ScenarioPage() {
       <section className="mx-auto max-w-2xl rounded-[1.7rem] border border-border bg-card p-6 md:p-8">
         <p className="text-xs font-bold uppercase tracking-[.15em] text-accent">{scenario.setting}</p>
         <h1 className="display mt-4 text-3xl font-bold">{scenario.prompt}</h1>
-        <div className="mt-6 space-y-3">{options.map((option, index) => <button key={option} type="button" disabled={checked} onClick={() => { setSelected(option); setChecked(true); if (normalizeAnswer(option) === normalizeAnswer(scenario.response)) recordExercise(); }} className={cx("focus-ring flex w-full items-center gap-4 rounded-2xl border bg-background p-4 text-left text-sm font-semibold", checked && normalizeAnswer(option) === normalizeAnswer(scenario.response) && "border-primary bg-primary/10", checked && selected === option && !correct && "border-destructive bg-destructive/10", !checked && "border-border hover:border-primary hover:bg-secondary")}><span className="grid h-8 w-8 place-items-center rounded-lg bg-muted text-xs">{String.fromCharCode(65 + index)}</span><span>{option}</span></button>)}</div>
+        <div className="mt-6 space-y-3">{options.map((option, index) => <button key={option.id} type="button" disabled={checked} onClick={() => { setSelected(option.value); setChecked(true); if (normalizeAnswer(option.value) === normalizeAnswer(scenario.response)) recordExercise(); }} className={cx("focus-ring flex w-full items-center gap-4 rounded-2xl border bg-background p-4 text-left text-sm font-semibold", checked && normalizeAnswer(option.value) === normalizeAnswer(scenario.response) && "border-primary bg-primary/10", checked && selected === option.value && !correct && "border-destructive bg-destructive/10", !checked && "border-border hover:border-primary hover:bg-secondary")}><span className="grid h-8 w-8 place-items-center rounded-lg bg-muted text-xs">{String.fromCharCode(65 + index)}</span><span>{option.value}</span></button>)}</div>
         {checked && <div className={cx("mt-6 rounded-2xl border p-5", correct ? "border-primary/30 bg-primary/10" : "border-destructive/30 bg-destructive/10")}><p className="font-bold">{correct ? "Mzyan! That works." : "Not quite. Try the phrase that fits the situation."}</p><p className="mt-2 text-sm text-muted-foreground">{scenario.note}</p><p className="mt-3 text-sm"><strong className="text-primary">{scenario.response}</strong><span className="ml-2 text-muted-foreground">{scenario.meaning}</span></p><Link href="/home" className="focus-ring mt-4 inline-flex rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground">Back home</Link></div>}
       </section>
     </Shell>

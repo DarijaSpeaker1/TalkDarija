@@ -26,6 +26,7 @@ export type AppState = {
   diamonds: number;
   dailyMinutes: number;
   dailyMinutesDate: string | null;
+  lastActivityDate: string | null;
   lastPractice: string | null;
   completedLessons: string[];
   learnedWords: string[];
@@ -49,6 +50,10 @@ const localDay = (date = new Date()) => {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
+const previousLocalDay = (day: string) => {
+  const [year, month, date] = day.split("-").map(Number);
+  return localDay(new Date(year, month - 1, date - 1));
+};
 const key = "talkdarija-state-v1";
 const defaults: AppState = {
   profile: null,
@@ -60,6 +65,7 @@ const defaults: AppState = {
   diamonds: 18,
   dailyMinutes: 0,
   dailyMinutesDate: null,
+  lastActivityDate: null,
   lastPractice: null,
   completedLessons: [],
   learnedWords: [],
@@ -82,9 +88,18 @@ const load = (): AppState => {
     const raw = localStorage.getItem(key);
     if (!raw) return defaults;
     const parsed = JSON.parse(raw) as Partial<AppState>;
+    const lastActivityDate = parsed.lastActivityDate ?? (parsed.lastPractice
+      ? localDay(new Date(parsed.lastPractice))
+      : null);
+    const today = localDay();
+    const yesterday = previousLocalDay(today);
     const merged = {
       ...defaults,
       ...parsed,
+      lastActivityDate,
+      streak: lastActivityDate === today || lastActivityDate === yesterday
+        ? parsed.streak ?? defaults.streak
+        : defaults.streak,
       hearts: parsed.hearts ?? defaults.hearts,
       settings: { ...defaults.settings, ...(parsed.settings || {}) },
     };
@@ -149,10 +164,8 @@ export function useLocalApp() {
       ...(completedLessons.length >= 10 ? ["pathfinder"] : []),
     ]);
     const today = localDay();
-    const lastDay = sharedState.lastPractice
-      ? localDay(new Date(sharedState.lastPractice))
-      : null;
-    const yesterday = localDay(new Date(Date.now() - 86400000));
+    const lastDay = sharedState.lastActivityDate;
+    const yesterday = previousLocalDay(today);
     const isNewQuestDay = sharedState.dailyQuestDate !== today;
     const isNewMinutesDay = sharedState.dailyMinutesDate !== today;
     const nextStreak =
@@ -171,6 +184,7 @@ export function useLocalApp() {
       xp: alreadyCompleted ? sharedState.xp : sharedState.xp + xp,
       diamonds: sharedState.diamonds + diamondReward,
       dailyMinutesDate: today,
+      lastActivityDate: today,
       dailyMinutes: alreadyCompleted ? (isNewMinutesDay ? 0 : sharedState.dailyMinutes) : (isNewMinutesDay ? minutes : sharedState.dailyMinutes + minutes),
       dailyQuestDate: today,
       dailyLessons: isNewQuestDay ? 1 : sharedState.dailyLessons + (alreadyCompleted ? 0 : 1),
@@ -184,7 +198,7 @@ export function useLocalApp() {
       currentLessonId: nextLesson?.id || id,
       currentQuestion: 0,
       achievements: [...achievements],
-      ...(alreadyCompleted ? {} : { streak: Math.max(1, nextStreak) }),
+      streak: Math.max(1, nextStreak),
     });
   }, []);
   const recordExercise = useCallback(() => {
